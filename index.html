@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Pagerjs by finnsson</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Pagerjs</h1>
+          <h2>The Single Page Application Framework for KnockoutJS</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/finnsson/pagerjs/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/finnsson/pagerjs/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/finnsson/pagerjs" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>pager.js</h1>
+
+<p>pager.js provides the possibility of creating single page applications in a declarative fashion.</p>
+
+<p>This makes it easier to design large scale single page web sites.</p>
+
+<h2>Helpers</h2>
+
+<ul>
+<li><code>pager.route</code></li>
+<li><code>pager.start</code></li>
+<li><code>pager.extendWithPage</code></li>
+</ul><h3>Example</h3>
+
+<pre><code>pager.extendWithPage(viewModel);
+ko.applyBindings(viewModel);
+pager.start(viewModel);
+</code></pre>
+
+<h2>Custom Bindings</h2>
+
+<p>pager.js extends KnockoutJS with two custom bindings: <code>page</code> and <code>page-href</code>.</p>
+
+<h3>page</h3>
+
+<pre><code>&lt;div data-bind="page: {}"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Configurations:</p>
+
+<ul>
+<li>
+<code>{String} id</code> of scoped page that a router should react to. E.g. <code>start</code> or <code>user/me</code>.</li>
+<li>
+<code>{Object} with</code> that can change the scope of elements descendants.</li>
+<li>
+<code>{String} source</code> to load into element using jQuery.load</li>
+<li>
+<code>{String} sourceOnShow</code> to load into element using jQuery.load when the element is displayed</li>
+<li>
+<code>{Boolean/Number} sourceCache</code> can be set to true in order for sourceOnShow to only load the source once.
+If a number is specified the cache is valid for that amount of time in seconds.</li>
+</ul><h3>page-href</h3>
+
+<pre><code>&lt;a data-bind="page-href: 'somePagePath'"&gt;&lt;/a&gt;
+</code></pre>
+
+<p>Calculates absolute href based on the location of the element.</p>
+
+<h2>Dependencies</h2>
+
+<ul>
+<li>jQuery</li>
+<li>Knockoutjs</li>
+<li>Underscore</li>
+</ul><h2>Behaviors</h2>
+
+<p>The following behaviors specify and exemplify what <code>pager.js</code> is capable of.</p>
+
+<h3>Should display page with id start by default</h3>
+
+<pre><code>&lt;div&gt;
+  &lt;div data-bind="page: {id: 'bar'}"&gt;Bar&lt;/div&gt;
+  &lt;!-- Foo is displayed --&gt;
+  &lt;div data-bind="page: {id: 'start'}"&gt;Foo&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should navigate to page using scoped IDs.</h3>
+
+<pre><code>&lt;div data-bind="page: {id:'start'}"&gt;&lt;a href="#foo"&gt;Go to foo&lt;/a&gt;&lt;/div&gt;
+&lt;div data-bind="page: {id: 'foo'}"&gt;Foo. Go to &lt;a href="#start"&gt;start&lt;/a&gt;&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to do deep navigation</h3>
+
+<pre><code>&lt;div data-role="page"&gt;
+  &lt;a href="user/pelle"&gt;Go to Pelle&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-role="page" data-page-id="user"&gt;
+  &lt;div data-role="page" data-page-id="pelle"&gt;Pelle&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should load external content into a page using <code>source</code>
+</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'lorem', source: 'lorem.html .content'}"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>The source can contain a selector (see <code>.content</code> above) in order to extract a fragment on the site.</p>
+
+<h3>Should lazy load a external content into a page if <code>sourceOnShow</code> is declared</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'lazyLorem', sourceOnShow: 'lorem.html .content'}"&gt;&lt;/div&gt;
+</code></pre>
+
+<p><code>sourceOnShow</code> tells the page to load the content when the page is displayed.</p>
+
+<h3>Should cache lazy loaded content when <code>sourceCache: true</code>
+</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'lazyLoremCached', sourceOnShow: 'lorem.html .content', sourceCache: true}"&gt;&lt;/div&gt;
+</code></pre>
+
+<h3>Should cache lazy loaded content the number of seconds specified by <code>sourceCache</code>
+</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'lazyLoremCached5seconds', sourceOnShow: 'lorem.html .content', sourceCache: 5}"&gt;&lt;/div&gt;
+</code></pre>
+
+<p><code>sourceCache</code> can specify the amount of seconds the external content should be cached.</p>
+
+<h3>Should specify relative page paths using <code>page-href</code>
+</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
+  &lt;!-- This will update href to #start/arne --&gt;
+  &lt;a data-bind="page-href: 'arne'"&gt;Arne&lt;/a&gt;
+
+  &lt;!-- This will update href to #admin/login --&gt;
+  &lt;a data-bind="page-href: '../admin/login'"&gt;Admin Login&lt;/a&gt;
+
+  &lt;div data-bind="page: {id: 'arne'}"&gt;Arne!&lt;/div&gt;
+&lt;/div&gt;
+&lt;div data-bind="page: {id: 'admin'}"&gt;
+  &lt;div data-bind="page: {id: 'login'}"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Based on the total path of the page the binding calculates an absolute href.</p>
+
+<h3>Should change binding context using <code>with</code>
+</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'user', with: user}"&gt;
+  &lt;!-- Here name is user.name --&gt;
+  &lt;div data-bind="text: name"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should match wildcard IDs if no other ID can match exactly</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'admin'}"&gt;&lt;/div&gt;
+&lt;!-- The page below match anything except 'admin' --&gt;
+&lt;div data-bind="page: {id: '?'}"&gt;&lt;/div&gt;
+</code></pre>
+
+<h3>Should do deep navigation with wildcards</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'start'}&gt;
+  &lt;a href="user/pelle"&gt;Go to Pelle&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-bind="page: {id: '?'}"&gt;
+  Misc:
+  &lt;div data-bind="page: {id: 'pelle'}"&gt;
+    Pelle
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should send wildcards to source</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'start'}&gt;
+  &lt;a href="user/pelle"&gt;Go to Pelle&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-bind="page: {id: 'user'}"&gt;
+  User:
+  &lt;!-- {1} will be replaced with whatever matched the wildcard --&gt;
+  &lt;div data-bind="page: {id: '?', sourceOnShow: 'user/{1}.html'}"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to load content into iframes</h3>
+
+<pre><code>&lt;!-- An iframe will be created inside the div --&gt;
+&lt;div data-bind="page: {id: 'user', frame: 'iframe', source: 'user.html'}"&gt;&lt;/div&gt;
+
+&lt;!-- The iframe specified will be used --&gt;
+&lt;div data-bind="page: {id: 'pelle', frame: 'iframe', source: 'pelle.html'}"&gt;&lt;/div&gt;
+  &lt;iframe sandbox=""/&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h2>In the pipeline</h2>
+
+<ul>
+<li>Refactor <code>page</code>-binding into a class in order to make it extendable.</li>
+<li>Extract local functions to methods on <code>pager.Page</code>-prototype so they can be overwritten by sub classes.</li>
+<li>Start using Grunt</li>
+<li>
+</ul><h2>Backlog</h2>
+
+<p>There are a lot of features waiting to be implemented. Here are some of them.</p>
+
+<h3>
+<code>withOnShow</code> should bind a new view model to the page</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'user', withOnShow: someMethod('someMethod')}"&gt;&lt;/div&gt;
+</code></pre>
+
+<p><code>someMethod</code> must return a function that takes a callback that takes a view model.</p>
+
+<p>E.g.</p>
+
+<pre><code>function requireVM(module) {
+  return function(callback) {
+    require([module], function(mod) {
+      callback(mod.getVM());
+    });
+  };
+}
+</code></pre>
+
+<h3>Should be possible to specify page transitions on links</h3>
+
+<pre><code>&lt;div data-role="page"&gt;
+  &lt;a href="#!/user" data-page-transition="flip"&gt;Flipping transition&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-role="page" data-page-id="user"&gt;
+  User
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to specify page transitions on pages</h3>
+
+<pre><code>&lt;div data-role="page"&gt;
+  &lt;a href="#!/user"&gt;Flipping transition&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-role="page" data-page-transition="flip" data-page-id="user"&gt;
+  User
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to specify inheritable page transitions on pages</h3>
+
+<pre><code>&lt;div data-page-transition="flip"&gt;
+
+  &lt;div data-role="page"&gt;
+    &lt;a href="#!/user"&gt;Flipping transition&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div data-role="page" data-page-id="user"&gt;
+    User
+  &lt;/div&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to specify loaders text on pages</h3>
+
+<pre><code>&lt;div data-role="page" data-page-id="user" data-page-loader-text="Loading Page"&gt;
+  User
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to run custom JS on "navigate to"</h3>
+
+<pre><code>&lt;div data-role="page" data-page-to-js="someJS()" data-page-source="pelle.html" /&gt;
+</code></pre>
+
+<h3>Should be possible to run custom JS on "navigate from"</h3>
+
+<pre><code>&lt;div data-role="page" data-page-from-js="someJS()" data-page-source="pelle.html" /&gt;
+</code></pre>
+
+<h3>Should be possible to run custom JS on "navigate failed"</h3>
+
+<pre><code>&lt;div data-role="page" data-page-failed-js="someJS()" data-page-source="pelle.html" /&gt;
+</code></pre>
+
+<h3>Should be possible to change the page title</h3>
+
+<pre><code>&lt;div data-role="page" data-page-title="Pelle" data-page-source="pelle.html" /&gt;
+</code></pre>
+
+<h3>Should be possible to route to custom widgets (dialogs, carousels, accordions)</h3>
+
+<pre><code>&lt;!-- since some.js.code is executed once the pager is navigating to the dialog
+it is possible for custom JS to inject custom behavior --&gt;
+&lt;div data-role="page" id="dialog" data-page-to-js="some.js.code"&gt;
+  Here goes custom HTML.
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to circumvent the routing</h3>
+
+<p>Since pager is not responsible for listening on the location it is possible to
+circumvent the routing using the router used.</p>
+
+<h3>Should be possible to navigate into a layer without loosing context</h3>
+
+<pre><code>&lt;div data-role="page" id="foo"&gt;
+  &lt;a href="#!/foo/ok"&gt;OK&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- This page route matches against anything ending with /ok --&gt;
+&lt;!-- data-page-layout means the page is modal on top of the last page (*) --&gt;
+&lt;div data-role="page" data-page-id="*/ok" data-page-layout="modal"&gt;
+  OK
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to navigate into a layer and loose context</h3>
+
+<pre><code>&lt;div data-role="page" id="foo"&gt;
+  &lt;a href="#!/ok"&gt;OK&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- data-page-layout means the page is modal on top of the parent page --&gt;
+&lt;div data-role="page" data-page-id="ok" data-page-layout="modal"&gt;
+  OK
+&lt;/div&gt;
+</code></pre>
+
+<h2>List of Configurations to Implement</h2>
+
+<p>17 custom attributes in total.</p>
+
+<ul>
+<li>source="{URL}/({SELECTOR})?"
+URL to fetch into page.
+Optionally with a selector (e.g. foo/#content).
+The URL and/or SELECTOR can be a route.</li>
+<li>title="{TITLE}"
+Updates the title in the browser to TITLE.</li>
+<li>frame="(div|iframe)"
+div by default. If iframe an iframe will be created inside the element that contains the external content.
+Can be useful for sandboxing. If an iframe is specified inside the element that
+iframe (will all its attributes) will be used.</li>
+<li>transition="{TEXT}"
+The transition to use when navigating.
+The attribute can be put either on the a-tag or the page-element.
+The transition must be registered in the pager-object.</li>
+<li>loader-text="{TEXT}"
+Loader text used when loading the page.
+The attribute can be put either on the a-tag or the page-element.</li>
+<li>to-js="javascript"
+JS to run when navigating to the page.
+Return false to stop the navigation.</li>
+<li>from-js="javascript"
+JS to run when navigating from the page.
+Return false to stop the navigation.</li>
+<li>failed-js="javascript"
+JS to run when navigating to the page failed.</li>
+<li>layout="block|modal"
+block by default. If modal then the page will be modal on top of the parent.</li>
+</ul>
+        </section>
+
+        <footer>
+          Pagerjs is maintained by <a href="https://github.com/finnsson">finnsson</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
