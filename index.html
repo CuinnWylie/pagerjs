@@ -37,7 +37,20 @@
 
 <p>This makes it easier to design large scale single page web sites.</p>
 
-<h2>Helpers</h2>
+<h2>Getting Started</h2>
+
+<ul>
+<li>Download the <a href="https://raw.github.com/finnsson/pagerjs/master/pager.js">developer version</a>
+or the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.min.js">minified version</a>
+of pager.js</li>
+<li>Include all dependencies (jQuery, Underscore.js, KnockoutJS) as well as pager.js in your site</li>
+<li>Start using the bindings <code>page</code>, <code>page-href</code>, and <code>page-accordion-item</code>. Consult the
+<a href="http://oscar.finnsson.nu/pagerjs/">web page</a> or
+<a href="https://github.com/finnsson/pagerjs/tree/master/test">test cases</a> for how to use the bindings.</li>
+<li>Insert the lines <code>pager.extendWithPage(viewModel); ko.applyBindings(viewModel); pager.start(viewModel);</code>
+</li>
+<li>Rock 'n' Roll!</li>
+</ul><h2>Helpers</h2>
 
 <ul>
 <li><code>pager.route</code></li>
@@ -45,14 +58,21 @@
 <li><code>pager.extendWithPage</code></li>
 </ul><h3>Example</h3>
 
-<pre><code>pager.extendWithPage(viewModel);
+<pre><code>// viewModel is your KnockoutJS view model
+var viewModel = {};
+// pager.extendWithPage extends your
+// view model with some pager-specific data
+pager.extendWithPage(viewModel);
+// apply your view model as normal
 ko.applyBindings(viewModel);
+// start the pager. Will listen to hashchange and
+// show/hide pages depending on their page IDs
 pager.start(viewModel);
 </code></pre>
 
 <h2>Custom Bindings</h2>
 
-<p>pager.js extends KnockoutJS with two custom bindings: <code>page</code> and <code>page-href</code>.</p>
+<p>pager.js extends KnockoutJS with three custom bindings: <code>page</code>, <code>page-href</code> and <code>page-accordion-item</code>.</p>
 
 <h3>page</h3>
 
@@ -60,25 +80,29 @@ pager.start(viewModel);
 &lt;/div&gt;
 </code></pre>
 
-<p>Configurations:</p>
+<h4>Configurations</h4>
 
 <ul>
 <li>
 <code>{String} id</code> of scoped page that a router should react to. E.g. <code>start</code> or <code>user/me</code>.
 If the id is <code>?</code> (wildcard) it will match anything if no other page in the same parent match.</li>
 <li>
-<code>{Object} with</code> that can change the scope of elements descendants.</li>
+<code>{Object} with</code> that can change the scope of elements descendants. The same behavior as the normal <code>with</code>-binding.</li>
 <li>
-<code>{String} source</code> to load into element using jQuery.load</li>
+<code>{Function} withOnShow</code> sets the view model of elements descendants async after the page is shown. This is useful
+so you can extract sub pages view models to other <code>.js</code>-files.</li>
 <li>
-<code>{Function} sourceLoaded</code> is a method to run once the <code>source</code> (or <code>sourceOnShow</code>) is loaded.</li>
+<code>{String} source</code> to load into element using <code>jQuery#load</code>. The source will be loaded once the page is processed.</li>
 <li>
-<code>{String} sourceOnShow</code> to load into element using jQuery.load when the element is displayed</li>
+<code>{Function} sourceLoaded</code> is a method/event/callback to run once the <code>source</code> (or <code>sourceOnShow</code>) is loaded.</li>
+<li>
+<code>{String} sourceOnShow</code> to load into element using <code>jQuery#load</code> when the element is displayed. Thus sub pages
+can be extracted and loaded on demand.</li>
 <li>
 <code>{Boolean/Number} sourceCache</code> can be set to true in order for sourceOnShow to only load the source once.
 If a number is specified the cache is valid for that amount of time in seconds.</li>
 <li>
-<code>{String}</code> frame can be set to <code>iframe</code> in order for the source to be loaded into an iframe. If the page contains
+<code>{String} frame</code> can be set to <code>iframe</code> in order for the source to be loaded into an iframe. If the page contains
 an iframe that element is used.</li>
 </ul><h3>page-href</h3>
 
@@ -87,13 +111,29 @@ an iframe that element is used.</li>
 
 <p>Calculates absolute href based on the location of the element.</p>
 
+<h3>page-accordion-item</h3>
+
+<pre><code>&lt;!-- First item in accordion --&gt;
+&lt;div data-bind="page-accordion-item: {id: 'dog'}"&gt;
+    &lt;a href="#animals/dog"&gt;Dog&lt;/a&gt;
+    &lt;div&gt;Dog Information&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Second item in accordion --&gt;
+&lt;div data-bind="page-accordion-item: {id: 'cat'}"&gt;
+    &lt;a href="#animals/cat"&gt;Cat&lt;/a&gt;
+    &lt;div&gt;Cat Information&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><code>page-accordion-item</code> is a subclass / subbinding of <code>page</code> enabling deep linking and navigation of accordions.</p>
+
 <h2>Dependencies</h2>
 
 <ul>
-<li><a href="http://jquery.com/">jQuery</a></li>
 <li><a href="http://knockoutjs.com/">KnockoutJS</a></li>
+<li><a href="http://jquery.com/">jQuery</a></li>
 <li><a href="http://underscorejs.org/">Underscore.js</a></li>
-</ul><p>For development you'll need</p>
+</ul><p>For developing pager.js you'll need</p>
 
 <ul>
 <li><a href="http://nodejs.org/">Node.js</a></li>
@@ -103,7 +143,7 @@ an iframe that element is used.</li>
 <li><a href="http://requirejs.org/">RequireJS</a></li>
 </ul><h2>Behaviors</h2>
 
-<p>The following behaviors specify and exemplify what <code>pager.js</code> is capable of.</p>
+<p>The following behaviors specify and exemplify what pager.js is capable of.</p>
 
 <h3>Should display page with id start by default</h3>
 
@@ -116,18 +156,22 @@ an iframe that element is used.</li>
 
 <h3>Should navigate to page using scoped IDs.</h3>
 
-<pre><code>&lt;div data-bind="page: {id:'start'}"&gt;&lt;a href="#foo"&gt;Go to foo&lt;/a&gt;&lt;/div&gt;
-&lt;div data-bind="page: {id: 'foo'}"&gt;Foo. Go to &lt;a href="#start"&gt;start&lt;/a&gt;&lt;/div&gt;
+<pre><code>&lt;div data-bind="page: {id:'start'}"&gt;
+  &lt;a href="#foo"&gt;Go to foo&lt;/a&gt;
+&lt;/div&gt;
+&lt;div data-bind="page: {id: 'foo'}"&gt;
+  Foo. Go to &lt;a href="#start"&gt;start&lt;/a&gt;
+&lt;/div&gt;
 </code></pre>
 
 <h3>Should be possible to do deep navigation</h3>
 
 <pre><code>&lt;div id="start" data-bind="page: {id: 'start'}"&gt;
-    &lt;a href="#user/pelle"&gt;Go to Pelle&lt;/a&gt;
+    &lt;a href="#user/fry"&gt;Go to Fry&lt;/a&gt;
 &lt;/div&gt;
 
 &lt;div id="user" data-bind="page: {id: 'user'}"&gt;
-    &lt;div id="pelle" data-bind="page: {id: 'pelle'}"&gt;Pelle&lt;/div&gt;
+    &lt;div id="fry" data-bind="page: {id: 'fry'}"&gt;Fry&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 
@@ -164,13 +208,13 @@ In the example above <code>loremIsLoaded</code> is a function that is triggered 
 </h3>
 
 <pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-  &lt;!-- This will update href to #start/arne --&gt;
-  &lt;a data-bind="page-href: 'arne'"&gt;Arne&lt;/a&gt;
+  &lt;!-- This will update href to #start/bender --&gt;
+  &lt;a data-bind="page-href: 'bender'"&gt;Bender&lt;/a&gt;
 
   &lt;!-- This will update href to #admin/login --&gt;
   &lt;a data-bind="page-href: '../admin/login'"&gt;Admin Login&lt;/a&gt;
 
-  &lt;div data-bind="page: {id: 'arne'}"&gt;Arne!&lt;/div&gt;
+  &lt;div data-bind="page: {id: 'bender'}"&gt;Bender!&lt;/div&gt;
 &lt;/div&gt;
 &lt;div data-bind="page: {id: 'admin'}"&gt;
   &lt;div data-bind="page: {id: 'login'}"&gt;Login&lt;/div&gt;
@@ -198,13 +242,13 @@ In the example above <code>loremIsLoaded</code> is a function that is triggered 
 <h3>Should do deep navigation with wildcards</h3>
 
 <pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-      &lt;a href="#user/pelle"&gt;Go to Pelle&lt;/a&gt;
+      &lt;a href="#user/leela"&gt;Go to Leela&lt;/a&gt;
 &lt;/div&gt;
 
 &lt;div data-bind="page: {id: '?'}"&gt;
     Misc:
-    &lt;div data-bind="page: {id: 'pelle'}"&gt;
-        Pelle
+    &lt;div data-bind="page: {id: 'leela'}"&gt;
+        Leela
     &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
@@ -212,7 +256,7 @@ In the example above <code>loremIsLoaded</code> is a function that is triggered 
 <h3>Should send wildcards to source</h3>
 
 <pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-    &lt;a href="#user/pelle"&gt;Go to Pelle&lt;/a&gt;
+    &lt;a href="#user/fry"&gt;Go to Fry&lt;/a&gt;
 &lt;/div&gt;
 
 &lt;div data-bind="page: {id: 'user'}"&gt;
@@ -229,7 +273,7 @@ In the example above <code>loremIsLoaded</code> is a function that is triggered 
 &lt;div data-bind="page: {id: 'user', frame: 'iframe', source: 'user.html'}"&gt;&lt;/div&gt;
 
 &lt;!-- The iframe specified will be used --&gt;
-&lt;div data-bind="page: {id: 'pelle', frame: 'iframe', source: 'pelle.html'}"&gt;
+&lt;div data-bind="page: {id: 'fry', frame: 'iframe', source: 'fry.html'}"&gt;
     &lt;iframe sandbox=""&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 </code></pre>
@@ -260,15 +304,15 @@ The <code>page</code>-binding (<code>pager.Page</code>-class) is possible to ext
 
 <p>One custom widget (<code>page-accordion-item</code>) is already implemented.</p>
 
-<pre><code>&lt;div data-bind="page-accordion-item: {id: 'dog'}"&gt;
-    &lt;a href="#animals/dog"&gt;Dog&lt;/a&gt;
-
-    &lt;div&gt;Dog Information&lt;/div&gt;
-&lt;/div&gt;
-&lt;div data-bind="page-accordion-item: {id: 'cat'}"&gt;
-    &lt;a href="#animals/cat"&gt;Cat&lt;/a&gt;
-
-    &lt;div&gt;Cat Information&lt;/div&gt;
+<pre><code>&lt;div data-bind="page: {id: 'employee'}"&gt;
+    &lt;div data-bind="page-accordion-item: {id: 'zoidberg'}"&gt;
+        &lt;a href="#employee/zoidberg"&gt;Dog&lt;/a&gt;
+        &lt;div&gt;Zoidberg Information&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div data-bind="page-accordion-item: {id: 'hermes'}"&gt;
+        &lt;a href="#employee/hermes"&gt;Cat&lt;/a&gt;
+        &lt;div&gt;Hermes Information&lt;/div&gt;
+    &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 
@@ -284,6 +328,12 @@ circumvent the routing using the router used. Just do not use <code>pager.start<
 </ul><h2>Backlog</h2>
 
 <p>There are a lot of features waiting to be implemented. Here are some of them.</p>
+
+<h3>Custom Widgets</h3>
+
+<h4>Tab Panel</h4>
+
+<h4>Panel</h4>
 
 <h3>Should be possible to specify page transitions between sub pages</h3>
 
