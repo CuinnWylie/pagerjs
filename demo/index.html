@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Pager.js Demo</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="demo.css" rel="stylesheet">
@@ -13,13 +13,17 @@
     <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
 
     <script type="text/javascript">
-        require({
+        requirejs.config({
+            shim: {
+                bootstrap: ['jquery']
+            },
             paths:{
                 jquery:'jquery-1.7.2.min',
                 underscore:'lodash.min',
                 knockout:'knockout-2.1.0',
                 pager:'pager.amd.min',
-                bootstrap:'bootstrap/js/bootstrap.min'
+                bootstrap:'bootstrap/js/bootstrap.min',
+                "zoidberg":'character/zoidberg'
             }
         });
     </script>
@@ -34,7 +38,7 @@
 
             <div class="dropdown">
                 <a class="btn dropdown-toggle"><i class="icon-tasks"></i> Menu</a>
-                <ul data-bind="foreach: $page.children" class="dropdown-menu" role="menu"
+                <ul data-bind="foreach: $__page__.children" class="dropdown-menu" role="menu"
                     aria-labelledby="dropdownMenu">
                     <li>
                         <a data-bind="text: (valueAccessor().title || valueAccessor().id), attr: {href: '#' + valueAccessor().id}"></a>
@@ -594,14 +598,12 @@ loadSource : String
 show: void
 showElement: void
 hideElement : void
-isVisible : void
     </pre>
 
     <p>
         We want our custom binding to always show the first child element and only hide the second child element.
-        Thus we need to override <code>showElement</code>, <code>hideElement</code> and <code>isVisible</code>.
-        <code>showElement</code> should show the second child, <code>hideElement</code> should hide the second child
-        and <code>isVisible</code> should return true if the second child is visible.
+        Thus we need to override <code>showElement</code> and <code>hideElement</code>.
+        <code>showElement</code> should show the second child and <code>hideElement</code> should hide the second child.
     </p>
 
 
@@ -625,11 +627,6 @@ pager.PageAccordionItem.prototype.hideElement = function () {
 // show the second child using a slideDown animation
 pager.PageAccordionItem.prototype.showElement = function () {
     $(this.getAccordionBody()).slideDown();
-};
-
-// return true if the second child is visible
-pager.PageAccordionItem.prototype.isVisible = function () {
-    return $(this.getAccordionBody()).is(':visible');
 };
     </pre>
 
@@ -794,6 +791,7 @@ beforeFryIsHidden:function () {
     </header>
 
     <a href="#custom_hide_show/fry">Show Fry</a>
+
     <div data-bind="page:{id: 'fry', showElement: showFry, hideElement: hideFry}">
         <h2>Fry</h2>
         <a class="btn" data-bind="page-href: '../'">Hide Fry</a>
@@ -844,7 +842,7 @@ hideFry:function (page, callback) {
     <a href="#loader/Sabrepulse">Load Sabrepulse</a>
 
     <div data-bind="page: {id: 'Sabrepulse', frame: 'iframe', title: 'Sabrepulse', loader: textLoader, sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:43tqiFDcU8JcMVSYj6NTi3'}">
-        <iframe  width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        <iframe width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
     </div>
     
     <pre class="prettyprint linenums">
@@ -869,6 +867,164 @@ textLoader: function(page, element) {
     };
     return loader;
 }
+    </pre>
+
+    <a href="#tabpanel">Read about developing a tab panel</a>
+
+
+</div>
+
+<div data-bind="page: {id: 'tabpanel', title: 'Tab Panel'}">
+
+    <header class="jumbotron subhead">
+        <h1>Tab Panel</h1>
+
+        <p class="lead">
+            There is no special tab panel widget shipping with pager.js.
+
+            It is however very easy to construct one using the <code>children</code>
+            observableArray and <code>isVisible</code> observable property.
+        </p>
+    </header>
+
+    <div>
+        <ul class="nav nav-tabs" data-bind="foreach: $page.children">
+            <li data-bind="css: {active: isVisible}"><a
+                    data-bind="text: $data.getValue().title, page-href: getId()"></a></li>
+        </ul>
+
+        <div data-bind="page: {id: 'Slagsmålsklubben', title: 'Slagsmålsklubben', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:66KBDVJnA6c0DjHeSZYaHb', frame: 'iframe'}"
+             class="hero-unit">
+            <iframe width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+
+        <div data-bind="page: {id: 'Binärpilot', title: 'Binärpilot', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:67LKycg4jAoC06kZgjvbNd', frame: 'iframe'}"
+             class="hero-unit">
+            <iframe width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+    </div>
+    
+    <pre class="linenums prettyprint">
+&lt;div&gt;
+    &lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
+        &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a data-bind="text: $data.getValue().title, page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;div data-bind="page: {id: 'Slagsmålsklubben', title: 'Slagsmålsklubben', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:66KBDVJnA6c0DjHeSZYaHb', frame: 'iframe'}" class="hero-unit"&gt;
+        &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+    &lt;div data-bind="page: {id: 'Binärpilot', title: 'Binärpilot', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:67LKycg4jAoC06kZgjvbNd', frame: 'iframe'}" class="hero-unit"&gt;
+        &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+
+    <a href="#failed_navigation">Read about reacting to missing pages</a>
+
+</div>
+
+<div data-bind="page: {id: 'failed_navigation', title: 'Reacting to Failed Navigations'}">
+    <header class="jumbotron subhead">
+        <h1>Reacting to Failed Navigations</h1>
+
+        <p class="lead">
+            When pager or a page does not find a matching sub-page for a route
+            a callback is called.
+            Either set <code>pager.navigationFailed</code> or supply <code>navigationFailed</code>
+            to the page configuration with a function that takes two arguments: first the page and second the missing
+            route.
+            <br/>
+            This makes it easy to identify missing pages for routes and take actions.
+        </p>
+    </header>
+
+    <a data-bind="click: function() { window.location.hash = 'failed_navigation/random/' + (Math.random()*1000).toFixed() }">
+        Go to random sub-page
+    </a>
+
+    <div data-bind="page: {id: 'random', navigationFailed: randomFailed}">
+        <ul class="nav nav-tabs" data-bind="foreach: $page.children">
+            <li data-bind="css: {active: isVisible}"><a
+                    data-bind="text: getId(), page-href: getId()"></a></li>
+        </ul>
+
+        <div data-bind="foreach: newChildren">
+            <div data-bind="page: {id: childId}">
+                <span data-bind="text: childId"></span>
+            </div>
+        </div>
+    </div>
+
+    <pre class="prettyprint linenums">
+&lt;div data-bind="page: {id: 'random', navigationFailed: randomFailed}"&gt;
+    &lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
+        &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a
+                data-bind="text: getId(), page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;div data-bind="foreach: newChildren"&gt;
+        &lt;div data-bind="page: {id: childId}"&gt;
+            &lt;span data-bind="text: childId"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;        
+    </pre>
+
+    where
+
+    <pre class="prettyprint linenums">
+randomFailed:function (page, route) {
+    viewModel.newChildren.push({
+        childId:route[0]
+    });
+    page.showPage(route);
+},
+newChildren:ko.observableArray([])
+    </pre>
+
+    <a href="#custom_view_loader">Read about loading a view using a custom method</a>
+
+</div>
+
+<div data-bind="page: {id: 'custom_view_loader', title: 'Load View using Custom Method'}">
+    <header class="jumbotron subhead">
+        <h1>Load View using Custom Method</h1>
+
+        <p class="lead">
+            In order to facilitate programming in the large it is useful to be able to extract views as separate
+            components.
+            These views should not be forced to be stored as html-fragments or be loaded with jQuery.
+            <br/>
+            Thus a way to inject custom views should be possible. This is done using the <code>source</code>- or
+            <code>sourceOnShow</code>-properties. Just supply a method instead of a string!
+            <br/>
+            These properties takes a method that should take a <code>pager.Page</code> as first argument, a callback,
+            and return nothing.
+        </p>
+    </header>
+
+    <a href="#custom_view_loader/zoidberg">Load custom view using requireView-method</a>
+
+    <div data-bind="page: {id: 'zoidberg', sourceOnShow: requireView('zoidberg')}">
+
+    </div>
+
+    <pre class="prettyprint linenums">
+&lt;div data-bind="page: {id: 'zoidberg', sourceOnShow: requireView('zoidberg')}"/&gt;        
+    </pre>
+
+    where
+
+    <pre class="prettyprint linenums">
+window.requireView = function(viewModule) {
+    return function(page, callback) {
+        require([viewModule], function(viewString) {
+            $(page.element).html(viewString);
+            callback();
+        });
+    };
+};
     </pre>
 
 </div>
