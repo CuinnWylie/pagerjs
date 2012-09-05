@@ -37,7 +37,7 @@
 
 <p>This makes it easier to design large scale single page web sites.</p>
 
-<p>See the <a href="demo/">demo</a>.</p>
+<p>See the <a href="http://oscar.finnsson.nu/pagerjs/demo/">demo</a>.</p>
 
 <h2>Getting Started</h2>
 
@@ -94,18 +94,42 @@ If the id is <code>?</code> (wildcard) it will match anything if no other page i
 <code>{Function} withOnShow</code> sets the view model of elements descendants async after the page is shown. This is useful
 so you can extract sub pages view models to other <code>.js</code>-files.</li>
 <li>
-<code>{String} source</code> to load into element using <code>jQuery#load</code>. The source will be loaded once the page is processed.</li>
+<code>{String/Function} source</code> to load into element using <code>jQuery#load</code>. The source will be loaded once the page is processed.
+If it is a function it is invoken.</li>
 <li>
 <code>{Function} sourceLoaded</code> is a method/event/callback to run once the <code>source</code> (or <code>sourceOnShow</code>) is loaded.</li>
 <li>
-<code>{String} sourceOnShow</code> to load into element using <code>jQuery#load</code> when the element is displayed. Thus sub pages
-can be extracted and loaded on demand.</li>
+<code>{String/Function} sourceOnShow</code> to load into element using <code>jQuery#load</code> when the element is displayed. Thus sub pages
+can be extracted and loaded on demand. If it is a function it is invoken.</li>
 <li>
 <code>{Boolean/Number} sourceCache</code> can be set to true in order for sourceOnShow to only load the source once.
 If a number is specified the cache is valid for that amount of time in seconds.</li>
 <li>
 <code>{String} frame</code> can be set to <code>iframe</code> in order for the source to be loaded into an iframe. If the page contains
 an iframe that element is used.</li>
+<li>
+<code>{Boolean} modal</code> can be set to <code>true</code> in order for the page to act as a modal. If a page is a modal it can be
+found by child-pages to sibling-pages of the modal.</li>
+<li>
+<code>{Function} beforeHide</code> is called before the page is hidden.</li>
+<li>
+<code>{Function} beforeShow</code> is called before the page is shown.</li>
+<li>
+<code>{Function} afterHide</code> is called after the page is hidden.</li>
+<li>
+<code>{Function} afterShow</code> is called after the page is shown.</li>
+<li>
+<code>{Function} hideElement</code> can be supplied as a custom hide-method instead of the default <code>$(element).hide()</code>;</li>
+<li>
+<code>{Function} showElement</code> can be supplied as a custom show-method instead of the default <code>$(element).show()</code>;</li>
+<li>
+<code>{Function} loader</code> to call once the page is loaded. Can e.g. create a spinner inside the element.</li>
+<li>
+<code>{Function} navigationFailed</code> method to call if a navigation could not find any matching page.</li>
+<li>
+<code>{Object} params</code> binds URL-parameters to local observables.</li>
+<li>
+<code>{Function} guard</code> validates a page transition before it is happening.</li>
 </ul><h3>page-href</h3>
 
 <pre><code>&lt;a data-bind="page-href: 'somePagePath'"&gt;&lt;/a&gt;
@@ -234,6 +258,25 @@ In the example above <code>loremIsLoaded</code> is a function that is triggered 
 &lt;/div&gt;
 </code></pre>
 
+<h3>
+<code>withOnShow</code> should lazy bind a new view model to the page</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'user', withOnShow: someMethod('someMethod')}"&gt;&lt;/div&gt;
+</code></pre>
+
+<p><code>someMethod</code> must return a function that takes a callback that takes a view model.</p>
+
+<p>E.g.</p>
+
+<pre><code>function requireVM(module) {
+  return function(callback) {
+    require([module], function(mod) {
+      callback(mod.getVM());
+    });
+  };
+}
+</code></pre>
+
 <h3>Should match wildcard IDs if no other ID can match exactly</h3>
 
 <pre><code>&lt;div data-bind="page: {id: 'admin'}"&gt;&lt;/div&gt;
@@ -280,25 +323,6 @@ In the example above <code>loremIsLoaded</code> is a function that is triggered 
 &lt;/div&gt;
 </code></pre>
 
-<h3>
-<code>withOnShow</code> should lazy bind a new view model to the page</h3>
-
-<pre><code>&lt;div data-bind="page: {id: 'user', withOnShow: someMethod('someMethod')}"&gt;&lt;/div&gt;
-</code></pre>
-
-<p><code>someMethod</code> must return a function that takes a callback that takes a view model.</p>
-
-<p>E.g.</p>
-
-<pre><code>function requireVM(module) {
-  return function(callback) {
-    require([module], function(mod) {
-      callback(mod.getVM());
-    });
-  };
-}
-</code></pre>
-
 <h3>Should be possible to route to custom widgets (dialogs, carousels, accordions)</h3>
 
 <p>It is possible to create custom widgets that jack into the pager-system.
@@ -323,35 +347,344 @@ The <code>page</code>-binding (<code>pager.Page</code>-class) is possible to ext
 <p>Since pager is not responsible for listening on the location it is possible to
 circumvent the routing using the router used. Just do not use <code>pager.start</code>.</p>
 
-<h2>In the pipeline</h2>
+<h3>Should be possible to navigate into a layer (modal dialog) without losing context</h3>
 
-<ul>
-<li>Write an extensive example and push it to gh-pages branch.</li>
-</ul><h2>Backlog</h2>
+<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
+  &lt;div data-bind="page: {id: 'admin'}&gt;
+    &lt;a href="#start/admin/ok"&gt;Show OK&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div data-bind="page: {id: 'ok', modal: true, title: 'OK?'}"&gt;
+        &lt;a href="#admin"&gt;OK?&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 
-<p>There are a lot of features waiting to be implemented. Here are some of them.</p>
+<p>If a <code>page</code> is set to <code>modal</code> is can match IDs deeper down the hierarchy. In this case
+start/ok also matches start/admin/ok making the page available as a modal dialog
+in other contexts.</p>
 
-<h3>Custom Widgets</h3>
+<h3>Should be possible to navigate into a layer (modal dialog) and lose context</h3>
 
-<h4>Tab Panel</h4>
+<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
+  &lt;div data-bind="page: {id: 'admin'}&gt;
+    &lt;a href="#start/ok"&gt;Show OK&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div data-bind="page: {id: 'ok', modal: true}"&gt;
+        &lt;a href="#admin"&gt;OK?&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 
-<h4>Panel</h4>
-
-<h3>Should be possible to specify page transitions between sub pages</h3>
-
-<h3>Should be possible to specify loaders text on pages</h3>
-
-<h3>Should be possible to run custom JS on "navigate to"</h3>
-
-<h3>Should be possible to run custom JS on "navigate from"</h3>
-
-<h3>Should be possible to run custom JS on "navigate failed"</h3>
+<p>Losing the context is nothing special. Just navigate away form the current page.</p>
 
 <h3>Should be possible to change the page title</h3>
 
-<h3>Should be possible to navigate into a layer without loosing context</h3>
+<pre><code>&lt;div data-bind="page: {id: 'fry', title: 'Fry'}"&gt;
+  Fry
+&lt;/div&gt;
+</code></pre>
 
-<h3>Should be possible to navigate into a layer and loose context</h3>
+<p>Setting the 'title' configuration property will update the document title when navigating to
+the page.</p>
+
+<h3>Should be possible to run custom JS on "before/after navigate from/to"</h3>
+
+<p>There are four alternatives:</p>
+
+<ul>
+<li>global registration using pager.childManager</li>
+<li>global data binding on body using <code>click</code>
+</li>
+<li>local data binding on anchor using <code>click</code>
+</li>
+<li>
+<p>local data binding on page using <code>beforeHide</code>, <code>afterHide</code>, <code>beforeShow</code>, and <code>afterShow</code></p>
+
+<p>// global registration using pager.childManager
+ko.computed(function() {
+  var currentChild = pager.childManager.currentChildO();
+  if(currentChild) {
+    // do something
+  }
+});</p>
+
+<p></p>
+
+<pre><code>// local data binding on page
+&lt;div data-bind="page: {id: 'fry', beforeHide: beforeFryIsHidden}"&gt;&lt;/div&gt;
+
+// local data binding on anchor using click
+&lt;a data-bind="page-href: 'fry' click: anchorClicked}"&gt;Go to Fry&lt;/a&gt;
+</code></pre>
+
+<p></p>
+
+<p>var beforeFryIsHidden = function(page) {
+    console.error(page);
+};</p>
+
+<p>var anchorClicked = function(page, e) {
+    // otherwise the event will be stopped
+    return true;
+};</p>
+
+<p>var globalClick = function() {
+    // otherwise the event will be stopped
+    return true;
+};</p>
+</li>
+</ul><p>The click data-binding can be used to run validations before navigations. Just do not <code>return true</code>
+to prevent the navigation from happening.</p>
+
+<h3>Should be possible to supply custom showElement and hideElement-methods</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'fry', showElement: showFry, hideElement: hideFry}"&gt;
+  Fry
+&lt;/div&gt;
+
+// new default hide
+pager.hideElement = function(page, callback) {
+  $(page.element).slideUp(600);
+  if(callback) {
+    callback();
+  }
+};
+
+// new default show
+pager.showElement = function(page, callback) {
+  $(page.element).slideDown(600);
+  if(callback) {
+    callback();
+  }
+};
+
+var showFry = function(page, callback) {
+  $(page.element).fadeIn(500, callback);
+};
+var hideFry = function(page, callback) {
+  $(page.element).fadeOut(500, callback);
+};
+</code></pre>
+
+<h3>Should be possible to specify loaders in pages</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'zoidberg', title: 'Zoidberg', loader: loader, sourceOnShow: 'zoidberg.html'}" /&gt;
+</code></pre>
+
+<p>where</p>
+
+<pre><code>textLoader: function(page, element) {
+    var loader = {};
+    var txt = $('&lt;div&gt;&lt;/div&gt;', {text: 'Loading ' + page.getValue().title});
+    loader.load = function() {
+        $(element).append(txt);
+    };
+    loader.unload = function() {
+        txt.remove();
+    };
+    return loader;
+}
+</code></pre>
+
+<h3>Should be possible to specify global loaders</h3>
+
+<pre><code>// see textLoader above
+pager.loader = textLoader;
+</code></pre>
+
+<h3>Documented source code</h3>
+
+<p>The source code is documented using JsDoc.</p>
+
+<h3>Tab panel custom widget</h3>
+
+<pre><code>&lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
+    &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a data-bind="text: $data.getValue().title, page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div data-bind="page: {id: 'Slagsmålsklubben', title: 'Slagsmålsklubben', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:66KBDVJnA6c0DjHeSZYaHb', frame: 'iframe'}" class="hero-unit"&gt;
+    &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;div data-bind="page: {id: 'Binärpilot', title: 'Binärpilot', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:67LKycg4jAoC06kZgjvbNd', frame: 'iframe'}" class="hero-unit"&gt;
+    &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>Should be possible to react to a failed navigation</h3>
+
+<p>Both Page-objects and pager should send events whenever a navigation failed (i.e. no matching page for the route).</p>
+
+<pre><code>&lt;a data-bind="click: function() { window.location.hash = 'failed_navigation/random/' + (Math.random()*1000).toFixed() }"&gt;
+    Go to random sub-page
+&lt;/a&gt;
+
+&lt;div data-bind="page: {id: 'random', navigationFailed: randomFailed}"&gt;
+    &lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
+        &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a
+                data-bind="text: getId(), page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;div data-bind="foreach: newChildren"&gt;
+        &lt;div data-bind="page: {id: childId}"&gt;
+            &lt;span data-bind="text: childId"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>where</p>
+
+<pre><code>randomFailed:function (page, route) {
+    viewModel.newChildren.push({
+        childId:route[0]
+    });
+    page.showPage(route);
+},
+newChildren:ko.observableArray([])
+</code></pre>
+
+<h3>Should be possible to load view content using a custom method</h3>
+
+<p>In order to facilitate programming in the large it is useful to be able to extract views as separate components.
+These views should not be forced to be stored as html-fragments or be loaded with jQuery.</p>
+
+<p>Thus a way to inject custom views should be possible. This is done using the <code>source</code>- or
+<code>sourceOnShow</code>-properties. Just supply a method instead of a string!</p>
+
+<p>These properties takes a method that should take a <code>pager.Page</code> as first argument, a callback, and return nothing.</p>
+
+<pre><code>&lt;div data-bind="page: {id: 'zoidberg', sourceOnShow: requireView('character/zoidberg')}" /&gt;
+</code></pre>
+
+<p>where</p>
+
+<pre><code>window.requireView = function(viewModule) {
+  return function(page, callback) {
+    require([viewModule], function(viewString) {
+      $(page.element).html(viewString);
+      callback();
+    });
+  };
+};
+</code></pre>
+
+<p>if</p>
+
+<pre><code>// file: character/zoidberg.js
+define(function() {
+  return '&lt;h1&gt;Zoidberg&lt;/h1&gt;';
+});
+</code></pre>
+
+<h3>Should be possible to send URI (fragment identifier) parameters to a page</h3>
+
+<p>A page should be able to access the information in the current route - changing a view-model.</p>
+
+<p>Sending parts of the fragment identifier to variables in the view-model is possible using
+<code>params</code>.</p>
+
+<pre><code>&lt;div data-bind="page: {id: 'search', params: {'name', 'fromdate'}}"&gt;
+  &lt;span data-bind="text: name"&gt;&lt;/span&gt; (&lt;span data-bind="text: fromdate"&gt;&lt;/span&gt;)
+&lt;/div&gt;
+</code></pre>
+
+<p>where <code>name</code> and <code>fromdate</code> with be bound by the parameters <code>name</code> and <code>fromdate</code>.</p>
+
+<p>An example route for the example above could look like</p>
+
+<pre><code>example.com/#search/tv?name=samsung&amp;fromdate=20121010
+</code></pre>
+
+<p>or if HTML5 history is used</p>
+
+<pre><code>example.com/search/tv?name=samsung&amp;fromdate=20121010
+</code></pre>
+
+<h3>Should be possible to add guards</h3>
+
+<p>Guards are methods that are run before the page navigation takes place and
+that can stop the navigation from displaying a certain page.</p>
+
+<p>Use the property <code>guard: someMethod</code> do apply the guard. The method
+takes three parameters: page, route and callback. If the callback is called
+the navigation takes place - otherwise it is stopped.</p>
+
+<pre><code>&lt;div data-bind="page: {id: 'admin', guard: isLoggedIn}"&gt;
+  This page is only accessible if the user is logged in.
+&lt;/div&gt;
+</code></pre>
+
+<p>where</p>
+
+<pre><code>isLoggedIn: function(page, route, callback) {
+    if(viewModel.loggedIn()) {
+        callback();
+    } else {
+        window.location.href = "login";
+    }
+}
+</code></pre>
+
+<p>Use cases are login, validating steps in state machines, etc.</p>
+
+<p>The reason the guard takes a callback as third argument is simply because the guard might be async - accessing
+a webserver for login details or asking if a valid shopping card exists etc.</p>
+
+<h2>In the pipeline</h2>
+
+<p>Nothing is in the pipeline at the moment. I have to use pager.js some more.</p>
+
+<h2>Backlog</h2>
+
+<p>There are a lot of features waiting to be implemented. Here are some of them.</p>
+
+<h3>Document architecture and guiding principles</h3>
+
+<p>The architecture - and guiding principles - should be documentet.</p>
+
+<ul>
+<li>Dependencies (jQuery, KnockoutJS, Underscore.js)</li>
+<li>how the tool-chain is used (grunt qunit &gt; grunt min),</li>
+<li>working process (README.md &gt; GitHub Issues &gt; QUnit-test &gt; pager.js &gt; demo-page),</li>
+<li>code architecture (pager , Page, ChildManager).</li>
+<li>Document navigation/callback/event-order.</li>
+<li>Update doc.</li>
+<li>Update with History.js-example</li>
+</ul><h3>Wildcards should deep-load content if configured so</h3>
+
+<pre><code>&lt;a href="some/other/url"&gt;Go to some/other/url.html&lt;/a&gt;
+
+&lt;div data-bind="page: {id: '?', deep: true, sourceOnShow: '{?}.html'}&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>Scoped pure view observables using <code>vars</code>
+</h3>
+
+<pre><code>&lt;!-- x and y are now available as observables, but only in the view (not the view-model) --&gt;
+&lt;div data-bind="page: {id: 'foo', vars: ['x','y']}"&gt;
+  &lt;span data-bind="text: x"&gt;&lt;/span&gt;
+  &lt;span data-bind="text: x"&gt;&lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>This is useful for effects that has nothing to do with the view-model.</p>
+
+<h3>Named binding of child elements using <code>bind-child</code>
+</h3>
+
+<pre><code>&lt;div data-bind="page: {id: 'foo'}"&gt;
+  &lt;div&gt;
+    &lt;span data-bind="page-child: 'name'"/&gt;
+    &lt;span data-bind="page-child: 'age'"/&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Now <code>name</code> and <code>age</code> are available in the <code>Page</code>-instance
+under the <code>elementChildren</code>-observable, e.g. <code>this.elementChildren().name()</code>
+and <code>this.elementChildren().age()</code>.</p>
         </section>
 
         <footer>
