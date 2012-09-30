@@ -10,29 +10,9 @@
 
     <script data-main="demo.js" type="text/javascript" src="require-jquery.js"></script>
 
-    <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+    <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet"/>
 
-    <script type="text/javascript">
-        requirejs.config({
-            shim:{
-                "bootstrap/js/bootstrap.min.js":['jquery'],
-                "jquery.ba-hashchange.min":['jquery']
-            },
-            paths:{
-                underscore:'lodash.min',
-                knockout:'knockout-2.1.0',
-                pager:'pager.amd.hash.min',
-                "zoidberg":'character/zoidberg'
-            },
-            map: {
-                '*': {
-                    hashchange: 'jquery.ba-hashchange.min',
-                    bootstrap: 'bootstrap/js/bootstrap.min.js'
-                }
-            }
-        });
-    </script>
 
 </head>
 <body onload="prettyPrint()">
