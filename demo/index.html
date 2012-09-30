@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pager.js Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="demo.css" rel="stylesheet">
+    <link href="pager.css" rel="stylesheet">
+
+    <script data-main="demo.js" type="text/javascript" src="require.js"></script>
+
+    <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+
+    <script type="text/javascript">
+        requirejs.config({
+            shim:{
+                bootstrap:['jquery'],
+                history:['jquery']
+            },
+            paths:{
+                jquery:'jquery-1.7.2.min',
+                underscore:'lodash.min',
+                knockout:'knockout-2.1.0',
+                pager:'pager.amd.hash.min',
+                bootstrap:'bootstrap/js/bootstrap.min',
+                hashchange:'jquery.ba-hashchange.min',
+                "zoidberg":'character/zoidberg'
+            }
+        });
+    </script>
+
+</head>
+<body onload="prettyPrint()">
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#start">pager.js</a>
+
+            <div class="dropdown">
+                <a class="btn dropdown-toggle"><i class="icon-tasks"></i> Menu</a>
+                <ul data-bind="foreach: $__page__.children" class="dropdown-menu" role="menu"
+                    aria-labelledby="dropdownMenu">
+                    <li>
+                        <a data-bind="text: (valueAccessor().title || valueAccessor().id), attr: {href: '#' + valueAccessor().id}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding-top: 60px;">
+
+
+<div data-bind="page: {id: 'start', title: 'Pager.js Demo Start'}">
+    <header class="jumbotron subhead">
+        <h1>Show start page by default</h1>
+
+        <p class="lead"> This is the default start page. It is so because the page ID is set to 'start'.
+            Every other element with a page binding (<code>data-bind="page: {id: ...}"</code>) will be hidden
+            by default. Set <code>title: 'Some Title'</code> if you want to update the page title as the user
+            navigates to the page (look up at the title as you navigate this tutorial).
+        </p>
+    </header>
+
+        <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start', title: 'Pager.js Demo Start'}"&gt;
+    ...&lt;a href="#structure"&gt;Read about the structure.&lt;/a&gt;...
+&lt;/div&gt;
+        </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#structure">Read about the structure.</a>
+    </div>
+
+</div>
+
+<div data-bind="page: {id: 'structure', title: 'Structure'}">
+    <header class="jumbotron subhead">
+        <h1>Structure</h1>
+
+        <p class="lead">
+            A page is an element with a <code>page</code> custom binding. They can be placed anywhere in your site
+            and will work as pages that you can jump between. The ID of the page corresponds to the fragment
+            identifier in the URL (the thingy after #).
+            <br/>
+            All the main pages in this demo are placed inside a main container div.
+        </p>
+    </header>
+
+        <pre class="prettyprint">
+&lt;html&gt;
+&lt;body&gt;
+&lt;div class="container" style="padding-top: 30px;"&gt;
+
+    &lt;div data-bind="page: {id: 'start'}"&gt;
+        &lt;!-- the previous page --&gt;
+    &lt;/div&gt;
+    &lt;div data-bind="page: {id: 'structure'}"&gt;
+        &lt;!-- this page --&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#setup">Read about how to setup pagerjs</a>
+    </div>
+
+</div>
+
+<div data-bind="page: {id: 'setup', title: 'Setup'}">
+
+    <header class="jumbotron subhead">
+        <h1>Setup</h1>
+
+        <p class="lead">
+            Pager.js is depending on <a href="http://knockoutjs.com/">KnockoutJS</a>,
+            <a href="http://jquery.com/">jQuery</a> and <a href="http://underscorejs.org/">Underscore.js</a>
+            (or <a href="http://lodash.com/">Lo-Dash</a>).
+            Choose between a naïve history manger (<code>pager.js</code> or <code>pager.amd.js</code>),
+            a history manager based on jQuery hashchange (<code>pager.amd.hash.js</code>),
+            a history manager based on History.js (<code>pager.amd.history.js</code>)
+            or write your own.
+            Apply the lines below (where the 4th line should be familiar from KnockoutJS).
+        </p>
+    </header>
+
+    <pre class="prettyprint">
+// extend your view-model with pager.js specific data
+pager.extendWithPage(viewModel);
+// apply the view-model using KnockoutJS as normal
+ko.applyBindings(viewModel);
+// start pager.js - this method will be different depending on file loaded
+pager.start(viewModel);
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#deep_navigation"> You can jump to another page using an absolute
+            fragment identifier.
+        </a>
+    </div>
+
+</div>
+
+<div data-bind="page: {id: 'deep_navigation', title: 'Deep Navigation'}">
+    <header class="jumbotron subhead">
+        <h1>Deep Navigation</h1>
+
+        <p class="lead">
+            You can navigate into pages in pages, or pages in pages in pages.
+            Just set the <code>href</code> to the same ID as the page.
+        </p>
+    </header>
+
+
+    <div class="well" data-bind="page: {id: 'start'}">
+        This is the default sub page.
+        <a href="#deep_navigation/second">Show the second page</a>.
+    </div>
+    <div class="well" data-bind="page: {id: 'second'}">
+        This is the second sub page.
+
+        <a href="#deep_navigation">Go back to the first sub page</a>.
+    </div>
+
+        <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'deep_navigation'}"&gt;
+    ...
+    &lt;div data-bind="page: {id: 'start'}"&gt;
+        ...
+        &lt;a href="#deep_navigation/second"&gt;Show the second page&lt;/a&gt;.
+    &lt;/div&gt;
+    &lt;div data-bind="page: {id: 'second'}"&gt;
+        ...
+        &lt;a href="#deep_navigation"&gt;Go back to the first sub page&lt;/a&gt;.
+    &lt;/div&gt;
+    ...&lt;a href="#load_external_content"&gt;Go on&lt;/a&gt;...
+&lt;/div&gt;
+        </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#load_external_content">Read about loading content</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'load_external_content', sourceLoaded: externalContentLoaded, source: 'load_external_content.html .content', title: 'Load External Content'}">
+</div>
+
+<div data-bind="page: {id: 'lazy_load_external_content', sourceOnShow: 'lazy_load_external_content.html .content', title: 'Lazy-Load External Content'}">
+</div>
+
+<div data-bind="page: {id: 'cached_lazy', sourceOnShow: 'cached_lazy.html .content', sourceCache: true, title: 'Cache Lazy-Loaded Content'}">
+</div>
+
+
+<div data-bind="page: {id: 'relative_path', title: 'Relative Path'}">
+    <header class="jumbotron subhead">
+        <h1>Relative path</h1>
+
+        <p class="lead">
+            It can be tricky to calculate the absolute path of a link -
+            especially if you know the page will be loaded form somewhere else.
+            <br/>
+            Just use the <code>page-href</code> custom binding instead of specifying
+            a <code>href</code> directly!
+            <br/>
+            The <code>page-href</code> link will be relative to the page where the
+            element is. So if an anchor tag is in the page "user" a value <code>pelle</code>
+            will be resolved to <code>user/pelle</code>. The binding also understands <code>../</code>
+            if you need to track back the page hierarchy!
+            .
+        </p>
+    </header>
+
+
+    <div data-bind="page: {id: 'start'}">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-bind="page-href: 'fry'">Fry</a>
+            </li>
+            <li class="active">
+                <a data-bind="page-href: 'interesting'">Interesting</a>
+            </li>
+        </ul>
+
+        <div data-bind="page: {id: 'fry'}">
+            <img src="fry.jpg"/>
+        </div>
+        <div data-bind="page: {id: 'interesting'}">
+            <a data-bind="page-href: '../../'">Close this tab</a>
+            <br/>
+            <img src="interesting.jpeg"/>
+        </div>
+    </div>
+
+        <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start'}"&gt;
+    &lt;ul class="nav nav-tabs"&gt;
+        &lt;li class="active"&gt;
+            &lt;a data-bind="page-href: 'fry'"&gt;Fry&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="active"&gt;
+            &lt;a data-bind="page-href: 'interesting'"&gt;Interesting&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;div data-bind="page: {id: 'fry'}"&gt;
+        &lt;img src="fry.jpg"/&gt;
+    &lt;/div&gt;
+    &lt;div data-bind="page: {id: 'interesting'}"&gt;
+        &lt;a data-bind="page-href: '../../'"&gt;Close this tab&lt;/a&gt;
+        &lt;br/&gt;
+        &lt;img src="interesting.jpg"/&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+        </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#html5_history">What about HTML5 history?</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'html5_history', title: 'HTML5 History'}">
+    <header class="jumbotron subhead">
+        <h1>HTML5 History API</h1>
+
+        <p class="lead">
+            The easies way to use the HTML5 History API is to include
+            <code>pager.amd.history.js</code> instead of <code>pager.amd.js</code>.
+            Everything will just work out of the box then.
+            <code>pager.amd.history.js</code> contains another <code>start()</code>-method.
+        </p>
+    </header>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#change_binding_context">Read about changing binding context</a>
+    </div>
+
+</div>
+
+<div data-bind="page: {id: 'change_binding_context', title: 'Change Binding Context'}">
+    <header class="jumbotron subhead">
+        <h1>Change Binding Context</h1>
+
+        <p class="lead">
+            Use <code>with:</code> to change the binding context - similar to the <code>with</code> binding.
+        </p>
+    </header>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'user', with: user}"&gt;
+    &lt;span data-bind="text: name"&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    viewModel = {
+        user:{
+            name:ko.observable("Amy")
+        }
+    };
+&lt;/script&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#lazy_bind_view_model">Read more about changing the binding
+            context</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'lazy_bind_view_model', title: 'Lazy-Bind View-Model'}">
+    <header class="jumbotron subhead">
+        <h1>Change Binding Context on Show</h1>
+
+        <p class="lead">
+            If you construct an application with multiple pages you might want to data binding
+            the pages first when the pages are displayed.
+            Use <code>withOnShow:</code> to to an asynchronous data binding when the page is displayed.
+        </p>
+    </header>
+
+    <div data-bind="page: {id: 'start'}">
+        <p>
+            <a class="btn" data-bind="page-href: '../invention'">Show page and lazy load view model</a>
+        </p>
+    </div>
+
+    <div class="well" data-bind="page: {id: 'invention', withOnShow: requireVM('invention')}">
+        <h3 data-bind="text: name"></h3>
+
+        <p data-bind="text: description"></p>
+        <a data-bind="page-href: '../'">Hide this page</a>
+    </div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start'}"&gt;
+    &lt;p&gt;
+        &lt;a class="btn" data-bind="page-href: '../invention'"&gt;Show page and lazy load view model&lt;/a&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="well" data-bind="page: {id: 'invention', withOnShow: requireVM('invention')}"&gt;
+    &lt;h3 data-bind="text: name"&gt;&lt;/h3&gt;
+    &lt;p data-bind="text: description"&gt;&lt;/p&gt;
+    &lt;a data-bind="page-href: '../'"&gt;Hide this page&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript&gt;
+var requireVM = function (module) {
+    return function (callback) {
+        require([module], function (mod) {
+            callback(mod.getVM());
+        });
+    };
+};
+&lt;/script&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#matching_wildcards">And now about wildcards</a>
+    </div>
+
+
+</div>
+
+
+<div data-bind="page: {id: 'matching_wildcards', title: 'Matching Wildcards'}">
+    <header class="jumbotron subhead">
+        <h1>Matching Wildcards</h1>
+
+        <p class="lead">
+            Setting the <code>id:</code> property to <code>'?'</code> will make it
+            match anything. This is useful for a catch-anything and error handling.
+        </p>
+    </header>
+
+    <div data-bind="page: {id: 'start'}">
+        <p>
+            <a data-bind="page-href: ('../' + (Math.random()*100).toFixed(0))">Go do some random site</a>
+        </p>
+    </div>
+    <div data-bind="page: {id: '?'}">
+        <h3>Error</h3>
+
+        <p>The page you requested does not exist.</p>
+
+        <p><a href="#matching_wildcards">Go back</a></p>
+    </div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: '?'}"&gt;
+    &lt;h3&gt;Error&lt;/h3&gt;
+    &lt;p&gt;The page you requested does not exist.&lt;/p&gt;
+&lt;/div&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#deep_navigation_with_wildcards">Continue reading about wildcards</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'deep_navigation_with_wildcards', title: 'Deep Navigation with Wildcards'}">
+    <header class="jumbotron subhead">
+        <h1>Deep Navigation with Wildcards</h1>
+
+        <p class="lead">
+            The wildcard does not need to be at the end. It can be in a sub-page with sub-pages.
+        </p>
+    </header>
+
+    <div class="well">
+        <div data-bind="page: {id: 'start'}">
+            <a class="btn" href="#deep_navigation_with_wildcards/wild/leela">Go to Leela</a>
+        </div>
+
+        <div data-bind="page: {id: '?'}">
+            <h3>Character</h3>
+
+            <div data-bind="page: {id: 'leela'}">
+                Leela
+            </div>
+        </div>
+    </div>
+
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start'}"&gt;
+    &lt;a class="btn" href="#deep_navigation_with_wildcards/wild/leela"&gt;Go to Leela&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-bind="page: {id: '?'}"&gt;
+    &lt;h3&gt;Character&lt;/h3&gt;
+
+    &lt;div data-bind="page: {id: 'leela'}"&gt;
+        Leela
+    &lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#send_wildcard_to_source">Further features of wildcards</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'send_wildcard_to_source', title: 'Send Wildcards to Source'}">
+    <header class="jumbotron subhead">
+        <h1>Sending the Wildcard to Source</h1>
+
+        <p class="lead">
+            The page ID that matched the wildcard can be sent to the <code>source:</code> or
+            <code>sourceOnShow:</code>.
+            Just att <code>{1}</code> inside the <code>source:</code> or <code>sourceOnShow:</code>
+            and <code>{1}</code> will be replaced by the page ID.
+        </p>
+    </header>
+
+    <div class="well">
+        <div data-bind="page: {id: 'start'}">
+            <a href="#send_wildcard_to_source/character/fry">Go to Fry</a>
+        </div>
+
+        <div data-bind="page: {id: 'character'}">
+            <h3>Character</h3>
+
+            <div data-bind="page: {id: '?', sourceOnShow: 'character/{1}.html'}">
+            </div>
+        </div>
+    </div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start'}"&gt;
+    &lt;a href="#send_wildcard_to_source/character/fry"&gt;Go to Fry&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-bind="page: {id: 'character'}"&gt;
+    &lt;h3&gt;Character&lt;/h3&gt;
+
+    &lt;div data-bind="page: {id: '?', sourceOnShow: 'character/{1}.html'}"&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#load_into_iframe">Read about loading content into iframes</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'load_into_iframe', title: 'Load Content into iframe'}">
+    <header class="jumbotron subhead">
+        <h1>Loading Content into iframe</h1>
+
+        <p class="lead">
+            Sometimes it can be sound to use iframes instead of loading content directly into the page.
+            <br/>
+            Just use <code>frame: 'iframe'</code> to load the content from <code>source:</code>
+            or <code>sourceOnShow:</code> into an <code>iframe</code>.
+        </p>
+    </header>
+
+    <div data-bind="page: {id: 'start', frame: 'iframe', source: 'character/fry.html'}"></div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start', frame: 'iframe', source: 'character/fry.html'}"&gt;&lt;/div&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#configure_iframe">Read more about how to configure the
+            <code>iframe</code></a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'configure_iframe', title: 'Configure iframe'}">
+    <header class="jumbotron subhead">
+        <h1>Configure an iframe</h1>
+
+        <p class="lead">
+            Often you might need to configure the <code>iframe</code> element used.
+            Just include an <code>iframe</code> element inside the page and that
+            <code>iframe</code> will be used.
+        </p>
+    </header>
+
+    <div data-bind="page: {id: 'start', frame: 'iframe', source: 'character/fry.html'}">
+        <iframe sandbox="" height="100" width="920"></iframe>
+    </div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start', frame: 'iframe', source: 'character/fry.html'}"&gt;
+    &lt;iframe sandbox="" height="100" width="920"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#custom_widgets">Read about custom widgets</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'custom_widgets', title: 'Custom Widgets'}">
+    <header class="jumbotron subhead">
+        <h1>Custom Widgets</h1>
+
+        <p class="lead">
+            pager.js is based on sound object oriented principles, making it easy to extend
+            with new custom widgets.
+            <br/>
+            In this tutorial the custom binding <code>page-accordion-item</code> is demonstrated.
+        </p>
+    </header>
+
+    <p>The page-accordion-item works like</p>
+
+    <div data-bind="page: {id: 'start'}" class="well">
+        <div data-bind="page-accordion-item: {id: 'zoidberg'}">
+            <a href="#custom_widgets/start/zoidberg">Zoidberg</a>
+
+            <div>Zoidberg Information</div>
+        </div>
+        <div data-bind="page-accordion-item: {id: 'hermes'}">
+            <a href="#custom_widgets/start/hermes">Hermes</a>
+
+            <div>Hermes Information</div>
+        </div>
+    </div>
+
+    and is constructed with the markup
+
+    <pre class="prettyprint">
+&lt;div data-bind="page-accordion-item: {id: 'zoidberg'}"&gt;
+    &lt;a href="#custom_widgets/start/zoidberg"&gt;Zoidberg&lt;/a&gt;
+
+    &lt;div&gt;Zoidberg Information&lt;/div&gt;
+&lt;/div&gt;
+&lt;div data-bind="page-accordion-item: {id: 'hermes'}"&gt;
+    &lt;a href="#custom_widgets/start/hermes"&gt;Hermes&lt;/a&gt;
+
+    &lt;div&gt;Hermes Information&lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+
+
+    <p>
+        First we need to create a class that inherits from <code>pager.Page</code>.
+    </p>
+
+    <pre class="prettyprint">
+pager.PageAccordionItem = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    pager.Page.apply(this, arguments);
+};
+pager.PageAccordionItem.prototype = new pager.Page();
+    </pre>
+
+    <p>
+        The <code>Page</code> class got these methods to override:
+    </p>
+    <pre class="prettyprint">
+init : void
+getValue : void
+getPage : void
+sourceUrl : String
+loadSource : String
+show: void
+showElement: void
+hideElement : void
+    </pre>
+
+    <p>
+        We want our custom binding to always show the first child element and only hide the second child element.
+        Thus we need to override <code>showElement</code> and <code>hideElement</code>.
+        <code>showElement</code> should show the second child and <code>hideElement</code> should hide the second child.
+    </p>
+
+
+    <pre class="prettyprint">
+// get second child
+pager.PageAccordionItem.prototype.getAccordionBody = function () {
+    return $(this.element).children()[1];
+};
+
+// hide second child
+pager.PageAccordionItem.prototype.hideElement = function () {
+    // use hide if it is the first time the page is hidden
+    if (!this.pageAccordionItemHidden) {
+        this.pageAccordionItemHidden = true;
+        $(this.getAccordionBody()).hide();
+    } else { // else use a slideUp animation
+        $(this.getAccordionBody()).slideUp();
+    }
+};
+
+// show the second child using a slideDown animation
+pager.PageAccordionItem.prototype.showElement = function () {
+    $(this.getAccordionBody()).slideDown();
+};
+    </pre>
+
+    <p>
+        Finally you need to add the new class as a new custom binding.
+    </p>
+
+        <pre class="prettyprint">
+ko.bindingHandlers['page-accordion-item'] = {
+    init:function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var pageAccordionItem = new pager.PageAccordionItem(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
+        pageAccordionItem.init();
+    },
+    update:function () {
+    }
+};
+   </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#modals">Read about modals</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'modals', title: 'Modals'}">
+    <header class="jumbotron subhead">
+        <h1>Modals</h1>
+
+        <p class="lead">
+            If is possible to navigate into pages that are further up but still give the impression
+            you are navigating deeper down.
+            This is useful for modal windows that you might want to show on multiple pages.
+            Just append <code>modal: true</code> and the page is accessible for sub-pages to sibling-pages.
+        </p>
+    </header>
+
+    <div data-bind="page: {id: 'start'}">
+        <a data-bind="page-href: 'first'" class="btn">Show first sub-page</a>
+        <a data-bind="page-href: 'second'" class="btn">Show second sub-page</a>
+
+        <div data-bind="page: {id: 'first'}" class="well">
+            First sub-page
+            <a class="btn" data-bind="page-href: 'alert'">Show an alert!</a>
+        </div>
+        <div data-bind="page: {id: 'second'}" class="well">
+            Second sub-page
+            <a class="btn" data-bind="page-href: 'alert'">Show an alert!</a>
+        </div>
+    </div>
+    <div data-bind="page: {id: 'alert', modal: true}" class="modal hide">
+        <div class="modal-header">
+            <a data-bind="page-href: '../'" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+
+            <h3>Alert</h3>
+        </div>
+        <div class="modal-body">
+            <p>This modal is actually under <code>#modals/alert</code> but show up here because <code>modal: true</code>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a data-bind="page-href: '../'" class="btn">This button get an auto-calculated href based on modals current
+                location</a>
+        </div>
+    </div>
+    
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'start'}"&gt;
+    &lt;a data-bind="page-href: 'first'" class="btn"&gt;Show first sub-page&lt;/a&gt;
+    &lt;a data-bind="page-href: 'second'" class="btn"&gt;Show second sub-page&lt;/a&gt;
+
+    &lt;div data-bind="page: {id: 'first'}" class="well"&gt;
+        First sub-page
+        &lt;a class="btn" data-bind="page-href: 'alert'"&gt;Show an alert!&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div data-bind="page: {id: 'second'}" class="well"&gt;
+        Second sub-page
+        &lt;a class="btn" data-bind="page-href: 'alert'"&gt;Show an alert!&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div data-bind="page: {id: 'alert', modal: true}" class="modal hide"&gt;
+    &lt;div class="modal-header"&gt;
+        &lt;a data-bind="page-href: '../'" class="close" data-dismiss="modal" aria-hidden="true"&gt;&times;&lt;/a&gt;
+
+        &lt;h3&gt;Alert&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-body"&gt;
+        &lt;p&gt;Lorem Ipsum&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-footer"&gt;
+        &lt;a data-bind="page-href: '../'" class="btn"&gt;This button get an auto-calculated href based on modals current location&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+        
+        
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#custom_js_when_navigating">Read about how to run custom JS when
+            navigating</a>
+    </div>
+</div>
+
+<div data-bind="page: {id: 'custom_js_when_navigating', title: 'Custom JS when Navigating'}">
+    <header class="jumbotron subhead">
+        <h1>Custom JS when Navigating</h1>
+
+        <p class="lead">
+            There are four main alternatives when it comes to running custom JS:
+        <ul class="">
+            <li>Listen to <code>pager.childManager</code> if you want to be notified whenever a navigation has happened.
+                It is not recommended to try to stop the navigation at this point since it would involve changing the
+                history.
+            </li>
+            <li>Bind to global <code>click</code> if you want to be notified when a navigation is about to happen and
+                you want a change to stop it. Just no not <code>return true;</code> in order to stop the navigation.
+            </li>
+            <li>Bind to local <code>click</code> if you want to control a certain navigation. This is probably what you
+                want to do it you want to inject validation.
+            </li>
+            <li>Bind to local before/after show/hide if you just want to be notified about a navigation.</li>
+        </ul>
+
+        <a href="#custom_js_when_navigating/fry">Show Fry</a>
+
+        <div data-bind="page: {id: 'fry', beforeHide: beforeFryIsHidden, afterShow: afterFryIsDisplayed}">
+            Fry
+            <a class="btn" href="#custom_js_when_navigating">Hide Fry</a>
+        </div>
+
+        </p>
+    </header>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'fry', beforeHide: beforeFryIsHidden, afterShow: afterFryIsDisplayed}"&gt;
+    Fry
+    &lt;a class="btn" href="#custom_js_when_navigating"&gt;Hide Fry&lt;/a&gt;
+&lt;/div&gt;
+
+    </pre>
+    <pre class="prettyprint">
+
+afterFryIsDisplayed:function () {
+    $('body').css("background-color", "#FF9999");
+}
+beforeFryIsHidden:function () {
+    $('body').stop().css("background-color", "#FFFFFF");
+}
+
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#custom_hide_show">Read about custom <code>hide</code>- and <code>show</code>-methods</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'custom_hide_show', title: 'Custom Hide- and Show-methods'}">
+    <header class="jumbotron subhead">
+        <h1>Custom Hide- and Show-methods</h1>
+
+        <p class="lead">
+            You might want to use a custom animation or custom behaviour for a page.
+            This is easily done by using the <code>showElement</code> and <code>hideElement</code>-properties.
+
+            These properties should be supplied with a method that takes two arguments: the first if the page
+            and the second is a callback that should be executed.
+        </p>
+    </header>
+
+    <a href="#custom_hide_show/fry">Show Fry</a>
+
+    <div data-bind="page:{id: 'fry', showElement: showFry, hideElement: hideFry}">
+        <h2>Fry</h2>
+        <a class="btn" data-bind="page-href: '../'">Hide Fry</a>
+    </div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'fry', showElement: showFry, hideElement: hideFry}"&gt;
+    &lt;h2&gt;Fry&lt;/h2&gt;
+    &lt;a class="btn" data-bind="page-href: '../'"&gt;Hide Fry&lt;/a&gt;
+&lt;/div&gt;
+    </pre>
+
+    <p>where</p>
+
+    <pre class="prettyprint">
+showFry:function (page, callback) {
+    $(page.element).fadeIn(1000, callback);
+};
+hideFry:function (page, callback) {
+    $(page.element).fadeOut(1000, function () {
+        $(page.element).hide();
+        if (callback) {
+            callback();
+        }
+    });
+};
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#loader">Read about custom loaders</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'loader', title: 'Loaders'}">
+    <header class="jumbotron subhead">
+        <h1>Loaders</h1>
+
+        <p class="lead">
+            It is possible to specify both locally an globally a loader to be used.
+
+            Use <code>loader: loader</code> for specifying a loader for a page
+            and <code>pager.loader = function(page, element) { ... }</code> for specifying
+            a default-loader for all pages.
+            The loader-method should return an object with two methods: <code>load</code>,
+            and <code>unload</code>.
+        </p>
+    </header>
+
+    <a href="#loader/Sabrepulse">Load Sabrepulse</a>
+
+    <div data-bind="page: {id: 'Sabrepulse', frame: 'iframe', title: 'Sabrepulse', loader: textLoader, sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:43tqiFDcU8JcMVSYj6NTi3'}">
+        <iframe width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+    </div>
+    
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'Sabrepulse', title: 'Sabrepulse', loader: textLoader, sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:43tqiFDcU8JcMVSYj6NTi3'}"&gt;
+    &lt;iframe  width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
+&lt;/div&gt;        
+    </pre>
+
+    <p>where</p>
+
+    <pre class="prettyprint">
+textLoader: function(page, element) {
+    var loader = {};
+    var txt = $("&lt;div&gt;&lt;/div>",
+        {text: 'Loading ' + page.getValue().title}
+    );
+    loader.load = function() {
+        $(element).append(txt);
+    };
+    loader.unload = function() {
+        txt.remove();
+    };
+    return loader;
+}
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#tabpanel">Read about developing a tab panel</a>
+    </div>
+
+</div>
+
+<div data-bind="page: {id: 'tabpanel', title: 'Tab Panel'}">
+
+    <header class="jumbotron subhead">
+        <h1>Tab Panel</h1>
+
+        <p class="lead">
+            There is no special tab panel widget shipping with pager.js.
+
+            It is however very easy to construct one using the <code>children</code>
+            observableArray and <code>isVisible</code> observable property.
+        </p>
+    </header>
+
+    <div>
+        <ul class="nav nav-tabs" data-bind="foreach: $page.children">
+            <li data-bind="css: {active: isVisible}"><a
+                    data-bind="text: $data.getValue().title, page-href: getId()"></a></li>
+        </ul>
+
+        <div data-bind="page: {id: 'Slagsmålsklubben', title: 'Slagsmålsklubben', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:66KBDVJnA6c0DjHeSZYaHb', frame: 'iframe'}"
+             class="hero-unit">
+            <iframe width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+
+        <div data-bind="page: {id: 'Binärpilot', title: 'Binärpilot', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:67LKycg4jAoC06kZgjvbNd', frame: 'iframe'}"
+             class="hero-unit">
+            <iframe width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+    </div>
+    
+    <pre class="prettyprint">
+&lt;div&gt;
+    &lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
+        &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a data-bind="text: $data.getValue().title, page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;div data-bind="page: {id: 'Slagsmålsklubben', title: 'Slagsmålsklubben', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:66KBDVJnA6c0DjHeSZYaHb', frame: 'iframe'}" class="hero-unit"&gt;
+        &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+    &lt;div data-bind="page: {id: 'Binärpilot', title: 'Binärpilot', sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:67LKycg4jAoC06kZgjvbNd', frame: 'iframe'}" class="hero-unit"&gt;
+        &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#failed_navigation">Read about reacting to missing pages</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'failed_navigation', title: 'Reacting to Failed Navigations'}">
+    <header class="jumbotron subhead">
+        <h1>Reacting to Failed Navigations</h1>
+
+        <p class="lead">
+            When pager or a page does not find a matching sub-page for a route
+            a callback is called.
+            Either set <code>pager.navigationFailed</code> or supply <code>navigationFailed</code>
+            to the page configuration with a function that takes two arguments: first the page and second the missing
+            route.
+            <br/>
+            This makes it easy to identify missing pages for routes and take actions.
+        </p>
+    </header>
+
+    <a data-bind="click: function() { window.location.hash = 'failed_navigation/random/' + (Math.random()*1000).toFixed() }">
+        Go to random sub-page
+    </a>
+
+    <div data-bind="page: {id: 'random', navigationFailed: randomFailed}">
+        <ul class="nav nav-tabs" data-bind="foreach: $page.children">
+            <li data-bind="css: {active: isVisible}"><a
+                    data-bind="text: getId(), page-href: getId()"></a></li>
+        </ul>
+
+        <div data-bind="foreach: newChildren">
+            <div data-bind="page: {id: childId}">
+                <span data-bind="text: childId"></span>
+            </div>
+        </div>
+    </div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'random', navigationFailed: randomFailed}"&gt;
+    &lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
+        &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a
+                data-bind="text: getId(), page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;div data-bind="foreach: newChildren"&gt;
+        &lt;div data-bind="page: {id: childId}"&gt;
+            &lt;span data-bind="text: childId"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;        
+    </pre>
+
+    where
+
+    <pre class="prettyprint">
+randomFailed:function (page, route) {
+    viewModel.newChildren.push({
+        childId:route[0]
+    });
+    page.showPage(route);
+},
+newChildren:ko.observableArray([])
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#custom_view_loader">Read about loading a view using a custom
+            method</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'custom_view_loader', title: 'Load View using Custom Method'}">
+    <header class="jumbotron subhead">
+        <h1>Load View using Custom Method</h1>
+
+        <p class="lead">
+            In order to facilitate programming in the large it is useful to be able to extract views as separate
+            components.
+            These views should not be forced to be stored as html-fragments or be loaded with jQuery.
+            <br/>
+            Thus a way to inject custom views should be possible. This is done using the <code>source</code>- or
+            <code>sourceOnShow</code>-properties. Just supply a method instead of a string!
+            <br/>
+            These properties takes a method that should take a <code>pager.Page</code> as first argument, a callback,
+            and return nothing.
+        </p>
+    </header>
+
+    <a href="#custom_view_loader/zoidberg">Load custom view using requireView-method</a>
+
+    <div data-bind="page: {id: 'zoidberg', sourceOnShow: requireView('zoidberg')}">
+
+    </div>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'zoidberg', sourceOnShow: requireView('zoidberg')}"/&gt;        
+    </pre>
+
+    where
+
+    <pre class="prettyprint">
+window.requireView = function(viewModule) {
+    return function(page, callback) {
+        require([viewModule], function(viewString) {
+            $(page.element).html(viewString);
+            callback();
+        });
+    };
+};
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#params">Read about binding URI parameters</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'params', title: 'Binding URI Parameters'}">
+    <header class="jumbotron subhead">
+        <h1>Binding URI Parameters</h1>
+
+        <p class="lead">
+            A page is able to access the information in the current route and change the view-model.
+            <br/>
+            Using <code>params: ['x','y']</code> it is possible to pick up pseudo parameters from the URL
+            and bind them as observable variables in the page. If the parameter already exists on the
+            viewModel it is bound to that observable instead.
+            <br/>
+            These parameters can even be nested!
+        </p>
+    </header>
+
+    <a href="#params/search?product=tv&price=200">Search for a $200 TV</a>
+
+    <div data-bind="page: {id: 'search', params: ['product','price']}" class="well">
+        <span data-bind="text: product"></span> @ $ <span data-bind="text: price"></span>
+        <br/>
+
+        <a class="btn" data-bind="page-href: 'details'">See Details</a>
+        <a class="btn" data-bind="page-href: 'lorem'">See Lorem Ipsum</a>
+
+        <div data-bind="page: {id: 'details'}">
+            Details about the search
+        </div>
+        <div data-bind="page: {id: 'lorem'}">
+            Lorem Ipsum
+        </div>
+    </div>
+
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'search', params: ['product','price']}" class="well"&gt;
+    &lt;span data-bind="text: product"&gt;&lt;/span&gt; @ $ &lt;span data-bind="text: price"&gt;&lt;/span&gt;
+    &lt;br/&gt;
+
+    &lt;a class="btn" data-bind="page-href: 'details'"&gt;See Details&lt;/a&gt;
+    &lt;a class="btn" data-bind="page-href: 'lorem'"&gt;See Lorem Ipsum&lt;/a&gt;
+
+    &lt;div data-bind="page: {id: 'details'}"&gt;
+        Details about the search
+    &lt;/div&gt;
+    &lt;div data-bind="page: {id: 'lorem'}"&gt;
+        Lorem Ipsum
+    &lt;/div&gt;
+&lt;/div>
+    </pre>
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#guards">Read about guards during page transitions</a>
+    </div>
+
+
+</div>
+
+<div data-bind="page: {id: 'guards', title: 'Guards'}">
+    <header class="jumbotron subhead">
+        <h1>Guards</h1>
+
+        <p class="lead">
+            Guards are methods that are run before the page navigation takes place and
+            that can stop the navigation from displaying a certain page.
+            <br/>
+            Use the property <code>guard: someMethod</code> do apply the guard. The method
+            takes three parameters: page, route and callback. If the callback is called
+            the navigation takes place - otherwise it is stopped.
+            <br/>
+            Use cases are login, validating steps in state machines, etc.
+            <br/>
+            The reason the guard takes a callback as third argument is simply because the guard might be async -
+            accessing
+            a webserver for login details or asking if a valid shopping card exists etc.
+        </p>
+    </header>
+
+
+    <a class="btn" data-bind="page-href: 'admin'">Go to admin panel</a><br/>
+
+    <div data-bind="page: {id: 'admin', guard: isLoggedIn}" class="well">
+        This page is only accessible if the user is logged in.
+        <a href="#guards" data-bind="click: logout">Logout</a>
+    </div>
+    <div data-bind="page: {id: 'login'}" class="well">
+        <p class="alert alert-error">You are not logged in. Check the checkbox and try again.</p>
+
+        <form>
+            <label class="checkbox">Login <input type="checkbox" data-bind="checked: loggedIn"/> </label>
+        </form>
+    </div>
+
+    <br/>
+
+    <pre class="prettyprint">
+&lt;div data-bind="page: {id: 'admin', guard: isLoggedIn}" class="well"&gt;
+    This page is only accessible if the user is logged in.
+    &lt;a href="#guards" data-bind="click: logout"&gt;Logout&lt;/a&gt;
+&lt;/div&gt;
+&lt;div data-bind="page: {id: 'login'}" class="well"&gt;
+    &lt;p class="alert alert-error"&gt;You are not logged in. Check the checkbox and try again.&lt;/p&gt;
+
+    &lt;form&gt;
+        &lt;label class="checkbox"&gt;Login &lt;input type="checkbox" data-bind="checked: loggedIn"/&gt; &lt;/label&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+    </pre>
+
+    where
+
+    <pre class="prettyprint">
+loggedIn: ko.observable(false),
+isLoggedIn: function(page, route, callback) {
+    if(viewModel.loggedIn()) {
+        callback();
+    } else {
+        window.location.href = "login";
+    }
+},
+    </pre>
+
+
+    <div class="form-actions">
+        <a class="btn btn-large btn-primary" href="#fx">Read about FX</a>
+    </div>
+
+</div>
+
+<div data-bind="page: {id: 'fx', title: 'FX', sourceOnShow: 'fx.html', sourceCache: true}">
+</div>
+
+
+<div data-bind="page: {id: 'recapitulation', title: 'Recapitulation', sourceOnShow: 'recapitulation.html', sourceLoaded: recapLoaded}">
+</div>
+
+</div>
+<footer>
+    <div class="pagination pagination-centered">
+        <ul>
+            <li><a href="http://oscar.finnsson.nu/pagerjs/">Homepage</a></li>
+            <li><a href="https://github.com/finnsson/pagerjs">Source code</a></li>
+            <li><a href="https://github.com/finnsson/pagerjs/issues/new">Submit issues</a></li>
+            <li><a href="https://github.com/finnsson/pagerjs/issues/milestones">Roadmap</a></li>
+        </ul>
+    </div>
+</footer>
+
+</body>
+</html>
