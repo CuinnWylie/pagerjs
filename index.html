@@ -1,58 +1,378 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Pagerjs by finnsson</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagerjs</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://documentup.com/stylesheets/screen.css">
+    
+    
 
+    
+
+    <!-- Typekit -->
+    
+      <script type="text/javascript">
+        (function() {
+          var config = {
+            kitId: 'hjp0pft',
+            scriptTimeout: 3000
+          };
+          var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/( |^)wf-loading( |$)/g,"");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script");tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(a&&a!="complete"&&a!="loaded")return;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
+        })();
+      </script>
+    
   </head>
-  <body>
-
-      <header>
-        <h1>Pagerjs</h1>
-        <p>The Single Page Application Framework for KnockoutJS</p>
-      </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/finnsson/pagerjs" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/finnsson/pagerjs/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/finnsson/pagerjs/tarball/master" class="button">TAR</a></li>
-          </ul>
+  <body><div id="container">
+  <div id="nav">
+    
+      <div id="header">
+        <a href="#" id="logo">pagerjs</a>
+      </div>
+    
+    <ul id="sections">
+      
+        <li>
+          <a href="#getting-started">Getting Started</a>
+          
+        </li>
+      
+        <li>
+          <a href="#dependencies">Dependencies</a>
+          
+        </li>
+      
+        <li>
+          <a href="#philosophy">Philosophy</a>
+          
+        </li>
+      
+        <li>
+          <a href="#reference-manual">Reference Manual</a>
+          
+            <ul>
+              
+                <li>
+                  <a href="#reference-manual/pager-route">`pager.route`</a>
+                </li>
+              
+                <li>
+                  <a href="#reference-manual/pager-start">`pager.start`</a>
+                </li>
+              
+                <li>
+                  <a href="#reference-manual/pager-extendwithpage">`pager.extendWithPage`</a>
+                </li>
+              
+                <li>
+                  <a href="#reference-manual/page-href">page-href</a>
+                </li>
+              
+                <li>
+                  <a href="#reference-manual/page">page</a>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="#configurations">Configurations</a>
+          
+            <ul>
+              
+                <li>
+                  <a href="#configurations/string-id">{String} id</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/object-with">{Object} with</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-withonshow">{Function} withOnShow</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/string-function-source">{String/Function} source</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-sourceloaded">{Function} sourceLoaded</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/string-function-sourceonshow">{String/Function} sourceOnShow</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/boolean-number-sourcecache">{Boolean/Number} sourceCache</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/string-frame">{String} frame</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/boolean-modal">{Boolean} modal</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-beforehide">{Function} beforeHide</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-beforeshow">{Function} beforeShow</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-afterhide">{Function} afterHide</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-aftershow">{Function} afterShow</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-hideelement">{Function} hideElement</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-showelement">{Function} showElement</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-loader">{Function} loader</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-navigationfailed">{Function} navigationFailed</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/object-params">{Object} params</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/function-guard">{Function} guard</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/string-fx">{String} fx</a>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="#cookbook">Cookbook</a>
+          
+            <ul>
+              
+                <li>
+                  <a href="#cookbook/display-page-with-id-start-by-default">Display page with id start by default</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/navigate-to-page-using-scoped-ids">Navigate to page using scoped IDs.</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/deep-navigation">Deep navigation</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/load-external-content-into-a-page-using-source-and-trigger-sourceloaded-event">Load external content into a page using `source` and trigger `sourceLoaded` event</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/lazy-load-an-external-content-into-a-page-if-sourceonshow-is-declared">Lazy load an external content into a page if `sourceOnShow` is declared</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/cache-lazy-loaded-content-when-sourcecache-true">Cache lazy loaded content when `sourceCache: true`</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/cache-lazy-loaded-content-the-number-of-seconds-specified-by-sourcecache">Cache lazy loaded content the number of seconds specified by `sourceCache`</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/specify-relative-page-paths-using-page-href">Specify relative page paths using `page-href`</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/change-binding-context-using-with">Change binding context using `with`</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/withonshow-will-lazy-bind-a-new-view-model-to-the-page">`withOnShow` will lazy bind a new view model to the page</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/match-wildcard-ids-if-no-other-id-can-match-exactly">Match wildcard IDs if no other ID can match exactly</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/deep-navigation-with-wildcards">Deep navigation with wildcards</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/send-wildcards-as-parameter-to-source-method">Send wildcards as parameter to source-method</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/load-content-into-iframes">Load content into iframes</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/route-to-custom-widgets-dialogs-carousels-accordions">Route to custom widgets (dialogs, carousels, accordions)</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/circumvent-the-routing">Circumvent the routing</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/navigate-into-a-layer-modal-dialog-without-losing-context">Navigate into a layer (modal dialog) without losing context</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/navigate-into-a-layer-modal-dialog-and-lose-context">Navigate into a layer (modal dialog) and lose context</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/change-the-page-title">Change the page title</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/run-custom-js-on-before-after-navigate-from-to">Run custom JS on &quot;before/after navigate from/to&quot;</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/supply-custom-showelement-and-hideelement-methods">Supply custom showElement and hideElement-methods</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/specify-loaders-in-pages">Specify loaders in pages</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/specify-global-loaders">Specify global loaders</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/tab-panel-custom-widget">Tab panel custom widget</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/react-to-a-failed-navigation">React to a failed navigation</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/load-view-content-using-a-custom-method">Load view content using a custom method</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/send-uri-fragment-identifier-parameters-to-a-page">Send URI (fragment identifier) parameters to a page</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/add-guards">Add guards</a>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="#faq">FAQ</a>
+          
+            <ul>
+              
+                <li>
+                  <a href="#faq/can-i-use-it-together-with">Can I use it together with...</a>
+                </li>
+              
+                <li>
+                  <a href="#faq/can-i-use-true-urls-instead">Can I use true URLs instead?</a>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="#release-notes">Release Notes</a>
+          
+            <ul>
+              
+                <li>
+                  <a href="#release-notes/0-2">0.2</a>
+                </li>
+              
+                <li>
+                  <a href="#release-notes/0-4">0.4</a>
+                </li>
+              
+                <li>
+                  <a href="#release-notes/0-6-current">0.6 (Current)</a>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="#roadmap">Roadmap</a>
+          
+        </li>
+      
+        <li>
+          <a href="#how-to-contribute">How to Contribute</a>
+          
+        </li>
+      
+        <li>
+          <a href="#license">License</a>
+          
+        </li>
+      
+    </ul>
+    
+      <div class="extra" id="github">
+        <a href="https://github.com/finnsson/pagerjs">Source on Github</a>
+      </div>
+      
+        <div class="extra" id="github-issues">
+          <a href="https://github.com/finnsson/pagerjs/issues">Issues</a>
         </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
-        <h1><a href="http://oscar.finnsson.nu/pagerjs/">pager.js</a></h1>
-
+      
+      
+    
+    
+  </div>
+  <div id="content">
+    
+      <a href="https://github.com/finnsson/pagerjs" id="github-ribbon"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    
+    <h1><a href="http://oscar.finnsson.nu/pagerjs/">pager.js</a></h1>
 <p>pager.js is a JavaScript library based on KnockoutJS, jQuery and Underscore.js that provides the possibility of
-creating single page applications in a declarative fashion</p>
+creating single page applications in a declarative fashion
+- nesting subpages inside subpages where each subpage can be developed standalone but still communicate between
+each other.
 
-<ul>
-<li>nesting subpages inside subpages where each subpage can be developed standalone but still communicate between
-each other.</li>
-</ul><p>This makes it easier to design very large scale single page web sites.</p>
+</p>
+<p>This makes it easier to design very large scale single page web sites.
 
-<p>See the <a href="http://oscar.finnsson.nu/pagerjs/demo/">demo</a>.</p>
+</p>
+<p>See the <a href="http://oscar.finnsson.nu/pagerjs/demo/">demo</a>.
 
-<h1>Getting Started</h1>
-
+</p>
+<h2 id='getting-started'>Getting Started</h2 id='getting-started'>
 <ol>
 <li>Download the <a href="https://raw.github.com/finnsson/pagerjs/master/pager.js">developer</a> version,
 the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.min.js">minified</a> version,
@@ -60,10 +380,8 @@ the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.amd.min.j
 the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.amd.hash.min.js">AMD jQuery hashchange</a> version,
 or the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.amd.history.min.js">AMD History.js</a> version
 of pager.js</li>
-<li>
-<p>Include all dependencies (jQuery, Underscore.js/Lo-Dash, KnockoutJS) as well as pager.js in your site
+<li><p>Include all dependencies (jQuery, Underscore.js/Lo-Dash, KnockoutJS) as well as pager.js in your site
 using either AMD or non-AMD:</p>
-
 <pre><code> // AMD
  requirejs.config({
      paths:{
@@ -79,528 +397,485 @@ using either AMD or non-AMD:</p>
  });
 
  // non-AMD
- &lt;script type="text/javascript" src="jquery-1.8.2.min.js"&gt;&lt;/script&gt;
- &lt;script type="text/javascript" src="underscore-min.js"&gt;&lt;/script&gt;
- &lt;script type="text/javascript" src="knockout-2.1.0.js"&gt;&lt;/script&gt;
- &lt;script type="text/javascript" src="pager.js"&gt;&lt;/script&gt;
-</code></pre>
+ <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"jquery-1.8.2.min.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
+ <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"underscore-min.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
+ <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"knockout-2.1.0.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
+ <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"pager.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span></code></pre>
 </li>
-<li>
-<p>Insert the lines:</p>
-
-<pre><code>pager.extendWithPage(viewModel);
-ko.applyBindings(viewModel);
-pager.start();
-</code></pre>
+<li><p>Insert the lines:</p>
+<pre><code> pager<span class="preprocessor">.extendWithPage</span>(viewModel)<span class="comment">;</span>
+ ko<span class="preprocessor">.applyBindings</span>(viewModel)<span class="comment">;</span>
+ pager<span class="preprocessor">.start</span>()<span class="comment">;</span></code></pre>
 </li>
 <li><p>Start using the bindings <code>page</code> and <code>page-href</code>. Consult the
 <a href="http://oscar.finnsson.nu/pagerjs/">web page</a>,
 <a href="http://oscar.finnsson.nu/pagerjs/demo/">demo</a>
-or <a href="https://github.com/finnsson/pagerjs/tree/master/test">test cases</a> for how to use the bindings.</p></li>
-<li><p>Rock 'n' Roll!</p></li>
-</ol><h1>Dependencies</h1>
-
+or <a href="https://github.com/finnsson/pagerjs/tree/master/test">test cases</a> for how to use the bindings.</p>
+</li>
+<li>Rock &#39;n&#39; Roll!</li>
+</ol>
+<h2 id='dependencies'>Dependencies</h2 id='dependencies'>
 <ul>
 <li><a href="http://knockoutjs.com/">KnockoutJS</a></li>
 <li><a href="http://jquery.com/">jQuery</a></li>
-<li>
-<a href="http://underscorejs.org/">Underscore.js</a> or <a href="http://lodash.com/">Lo-Dash</a>
-</li>
-</ul><p>You will usually use pager.js in combination with either
+<li><a href="http://underscorejs.org/">Underscore.js</a> or <a href="http://lodash.com/">Lo-Dash</a></li>
+</ul>
+<p>You will usually use pager.js in combination with either
 <a href="https://github.com/cowboy/jquery-hashchange">jQuery hashchange</a>
-or <a href="https://github.com/balupton/History.js/">History.js</a>.</p>
+or <a href="https://github.com/balupton/History.js/">History.js</a>.
 
-<p>pager.js is not depending on any CSS framework!</p>
+</p>
+<p>pager.js is not depending on any CSS framework!
 
-<p>For developing pager.js you'll also need</p>
+</p>
+<p>For developing pager.js you&#39;ll also need
 
+</p>
 <ul>
 <li><a href="http://nodejs.org/">Node.js</a></li>
 <li><a href="https://github.com/cowboy/grunt">Grunt</a></li>
 <li><a href="http://qunitjs.com/">QUnit</a></li>
 <li><a href="http://phantomjs.org/">PhantomJS</a></li>
 <li><a href="http://requirejs.org/">RequireJS</a></li>
-</ul><h1>Philosophy</h1>
-
+</ul>
+<h2 id='philosophy'>Philosophy</h2 id='philosophy'>
 <p>Developing a huge single page application should be like developing multiple small pages. That is the only way
-you'll be able to scale up and out the development. In order to ease development in the large pager.js got</p>
+you&#39;ll be able to scale up and out the development. In order to ease development in the large pager.js got
 
+</p>
 <ul>
 <li>views (pages) that can be loaded on-demand</li>
 <li>view-models that can be loaded on-demand</li>
-</ul><p>These MVVM-triads can be developed in isolation and later on connected.</p>
+</ul>
+<p>These MVVM-triads can be developed in isolation and later on connected.
 
-<h1>Reference Manual</h1>
-
+</p>
+<h2 id='reference-manual'>Reference Manual</h2 id='reference-manual'>
 <p>pager.js got three static methods and
 extends KnockoutJS with four custom bindings: <code>page</code>, <code>page-href</code>, <code>page-hash</code> and
-<code>page-href5</code>.</p>
+<code>page-href5</code>.
 
-<h2><code>pager.route</code></h2>
 
-<h2><code>pager.start</code></h2>
-
-<h2><code>pager.extendWithPage</code></h2>
-
-<h3>Example</h3>
-
-<pre><code>// viewModel is your KnockoutJS view model
+</p>
+<h3 id='reference-manual/pager-route'><code>pager.route</code></h3 id='reference-manual/pager-route'>
+<h3 id='reference-manual/pager-start'><code>pager.start</code></h3 id='reference-manual/pager-start'>
+<h3 id='reference-manual/pager-extendwithpage'><code>pager.extendWithPage</code></h3 id='reference-manual/pager-extendwithpage'>
+<h4>Example</h4>
+<pre><code><span class="comment">// viewModel is your KnockoutJS view model</span>
 var viewModel = {};
-// pager.extendWithPage extends your
-// view model with some pager-specific data
-pager.extendWithPage(viewModel);
-// apply your view model as normal
-ko.applyBindings(viewModel);
-// start the pager. Will listen to hashchange and
-// show/hide pages depending on their page IDs
-pager.start();
-</code></pre>
+<span class="comment">// pager.extendWithPage extends your</span>
+<span class="comment">// view model with some pager-specific data</span>
+pager<span class="variable">.extendWithPage</span>(viewModel);
+<span class="comment">// apply your view model as normal</span>
+ko<span class="variable">.applyBindings</span>(viewModel);
+<span class="comment">// start the pager. Will listen to hashchange and</span>
+<span class="comment">// show/hide pages depending on their page IDs</span>
+pager<span class="variable">.start</span>();</code></pre>
+<h3 id='reference-manual/page-href'>page-href</h3 id='reference-manual/page-href'>
+<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"page-href: 'somePagePath'"</span>></span><span class="tag">&lt;/<span class="title">a</span>></span></code></pre>
+<p>Calculates absolute href based on the location of the element.
 
-<h2>page-href</h2>
+</p>
+<h3 id='reference-manual/page'>page</h3 id='reference-manual/page'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {}"</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<p>The page-binding. See configuration.
 
-<pre><code>&lt;a data-bind="page-href: 'somePagePath'"&gt;&lt;/a&gt;
-</code></pre>
+</p>
+<h2 id='configurations'>Configurations</h2 id='configurations'>
+<p>The configuration options for the page-binding.
 
-<p>Calculates absolute href based on the location of the element.</p>
 
-<h2>page</h2>
-
-<pre><code>&lt;div data-bind="page: {}"&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p>The page-binding. See configuration.</p>
-
-<h1>Configurations</h1>
-
-<p>The configuration options for the page-binding.</p>
-
-<h2>{String} id</h2>
-
+</p>
+<h3 id='configurations/string-id'>{String} id</h3 id='configurations/string-id'>
 <p>ID of scoped page that a router should react to. E.g. <code>start</code> or <code>user/me</code>.
-If the id is <code>?</code> (wildcard) it will match anything if no other page in the same parent match.</p>
+If the id is <code>?</code> (wildcard) it will match anything if no other page in the same parent match.
 
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#setup">Setup</a></li>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#deep_navigation">Deep Navigation</a></li>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#matching_wildcards">Matching Wildcards</a></li>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#deep_navigation_with_wildcards">Deep Navigation with Wildcards</a></li>
-</ul><h2>{Object} with</h2>
+</ul>
+<h3 id='configurations/object-with'>{Object} with</h3 id='configurations/object-with'>
+<p>That can change the scope of elements descendants. The same behavior as the normal <code>with</code>-binding.
 
-<p>That can change the scope of elements descendants. The same behavior as the normal <code>with</code>-binding.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#change_binding_context">Change Binding Context</a></li>
-</ul><h2>{Function} withOnShow</h2>
-
+</ul>
+<h3 id='configurations/function-withonshow'>{Function} withOnShow</h3 id='configurations/function-withonshow'>
 <p>Sets the view model of elements descendants async after the page is shown. This is useful
-so you can extract sub pages view models to other <code>.js</code>-files.</p>
+so you can extract sub pages view models to other <code>.js</code>-files.
 
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#lazy_bind_view_model">Lazy-Bind View-Model</a></li>
-</ul><h2>{String/Function} source</h2>
-
+</ul>
+<h3 id='configurations/string-function-source'>{String/Function} source</h3 id='configurations/string-function-source'>
 <p>Source to load into element using <code>jQuery#load</code>. The source will be loaded once the page is processed.
-If it is a function it is invoked.</p>
+If it is a function it is invoked.
 
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#load_external_content">Load External Content</a></li>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_view_loader">Load View using Custom Method</a></li>
-</ul><h2>{Function} sourceLoaded</h2>
+</ul>
+<h3 id='configurations/function-sourceloaded'>{Function} sourceLoaded</h3 id='configurations/function-sourceloaded'>
+<p>Is a method/event/callback to run once the <code>source</code> (or <code>sourceOnShow</code>) is loaded.
 
-<p>Is a method/event/callback to run once the <code>source</code> (or <code>sourceOnShow</code>) is loaded.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#load_external_content">Load External Content</a></li>
-</ul><h2>{String/Function} sourceOnShow</h2>
-
+</ul>
+<h3 id='configurations/string-function-sourceonshow'>{String/Function} sourceOnShow</h3 id='configurations/string-function-sourceonshow'>
 <p>Source to load into element using <code>jQuery#load</code> when the element is displayed. Thus sub pages
-can be extracted and loaded on demand. If it is a function it is invoked.</p>
+can be extracted and loaded on demand. If it is a function it is invoked.
 
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#lazy_load_external_content">Lazy-Load External Content</a></li>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_view_loader">Load View using Custom Method</a></li>
-</ul><h2>{Boolean/Number} sourceCache</h2>
-
+</ul>
+<h3 id='configurations/boolean-number-sourcecache'>{Boolean/Number} sourceCache</h3 id='configurations/boolean-number-sourcecache'>
 <p>Can be set to true in order for sourceOnShow to only load the source once.
-If a number is specified the cache is valid for that amount of time in seconds.</p>
+If a number is specified the cache is valid for that amount of time in seconds.
 
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#cached_lazy">Cached Lazy-Loaded Content</a></li>
-</ul><h2>{String} frame</h2>
-
+</ul>
+<h3 id='configurations/string-frame'>{String} frame</h3 id='configurations/string-frame'>
 <p>Can be set to <code>iframe</code> in order for the source to be loaded into an iframe. If the page contains
-an iframe that element is used.</p>
+an iframe that element is used.
 
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#load_into_iframe">Load Content into iframe</a></li>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#configure_iframe">Configure an iframe</a></li>
-</ul><h2>{Boolean} modal</h2>
-
+</ul>
+<h3 id='configurations/boolean-modal'>{Boolean} modal</h3 id='configurations/boolean-modal'>
 <p>Can be set to <code>true</code> in order for the page to act as a modal. If a page is a modal it can be
-found by child-pages to sibling-pages of the modal.</p>
+found by child-pages to sibling-pages of the modal.
 
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#modals">Modals</a></li>
-</ul><h2>{Function} beforeHide</h2>
+</ul>
+<h3 id='configurations/function-beforehide'>{Function} beforeHide</h3 id='configurations/function-beforehide'>
+<p>Is called before the page is hidden.
 
-<p>Is called before the page is hidden.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_js_when_navigating">Custom JS when Navigating</a></li>
-</ul><h2>{Function} beforeShow</h2>
+</ul>
+<h3 id='configurations/function-beforeshow'>{Function} beforeShow</h3 id='configurations/function-beforeshow'>
+<p>Is called before the page is shown.
 
-<p>Is called before the page is shown.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_js_when_navigating">Custom JS when Navigating</a></li>
-</ul><h2>{Function} afterHide</h2>
+</ul>
+<h3 id='configurations/function-afterhide'>{Function} afterHide</h3 id='configurations/function-afterhide'>
+<p>Is called after the page is hidden.
 
-<p>Is called after the page is hidden.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_js_when_navigating">Custom JS when Navigating</a></li>
-</ul><h2>{Function} afterShow</h2>
+</ul>
+<h3 id='configurations/function-aftershow'>{Function} afterShow</h3 id='configurations/function-aftershow'>
+<p>Is called after the page is shown.
 
-<p>Is called after the page is shown.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_js_when_navigating">Custom JS when Navigating</a></li>
-</ul><h2>{Function} hideElement</h2>
+</ul>
+<h3 id='configurations/function-hideelement'>{Function} hideElement</h3 id='configurations/function-hideelement'>
+<p>Custom hide-method instead of the default <code>$(element).hide()</code>;
 
-<p>Custom hide-method instead of the default <code>$(element).hide()</code>;</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_hide_show">Custom Hide- and Show-Methods</a></li>
-</ul><h2>{Function} showElement</h2>
+</ul>
+<h3 id='configurations/function-showelement'>{Function} showElement</h3 id='configurations/function-showelement'>
+<p>Custom show-method instead of the default <code>$(element).show()</code>;
 
-<p>Custom show-method instead of the default <code>$(element).show()</code>;</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#custom_hide_show">Custom Hide- and Show-Methods</a></li>
-</ul><h2>{Function} loader</h2>
+</ul>
+<h3 id='configurations/function-loader'>{Function} loader</h3 id='configurations/function-loader'>
+<p>Loader to call once the page is loaded. Can e.g. create a spinner inside the element.
 
-<p>Loader to call once the page is loaded. Can e.g. create a spinner inside the element.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#loader">Loader</a></li>
-</ul><h2>{Function} navigationFailed</h2>
+</ul>
+<h3 id='configurations/function-navigationfailed'>{Function} navigationFailed</h3 id='configurations/function-navigationfailed'>
+<p>Method to call if a navigation could not find any matching page.
 
-<p>Method to call if a navigation could not find any matching page.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#failed_navigation">Reacting to Failed Navigation</a></li>
-</ul><h2>{Object} params</h2>
+</ul>
+<h3 id='configurations/object-params'>{Object} params</h3 id='configurations/object-params'>
+<p>Binds URL-parameters to local observables.
 
-<p>Binds URL-parameters to local observables.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#params">Binding URI parameters</a></li>
-</ul><h2>{Function} guard</h2>
+</ul>
+<h3 id='configurations/function-guard'>{Function} guard</h3 id='configurations/function-guard'>
+<p>Validates a page transition before it is happening.
 
-<p>Validates a page transition before it is happening.</p>
-
+</p>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#guards">Guards</a></li>
-</ul><h2>{String} fx</h2>
-
+</ul>
+<h3 id='configurations/string-fx'>{String} fx</h3 id='configurations/string-fx'>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#fx">FX</a></li>
-</ul><h1>Cookbook</h1>
+</ul>
+<h2 id='cookbook'>Cookbook</h2 id='cookbook'>
+<p>The following behaviors specify and exemplify what pager.js is capable of.
 
-<p>The following behaviors specify and exemplify what pager.js is capable of.</p>
+</p>
+<h3 id='cookbook/display-page-with-id-start-by-default'>Display page with id start by default</h3 id='cookbook/display-page-with-id-start-by-default'>
+<pre><code><span class="tag">&lt;<span class="title">div</span>></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'bar'}"</span>></span>Bar<span class="tag">&lt;/<span class="title">div</span>></span>
+  <span class="comment">&lt;!-- Foo is displayed --></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'start'}"</span>></span>Foo<span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/navigate-to-page-using-scoped-ids'>Navigate to page using scoped IDs.</h3 id='cookbook/navigate-to-page-using-scoped-ids'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id:'start'}"</span>></span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#foo"</span>></span>Go to foo<span class="tag">&lt;/<span class="title">a</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'foo'}"</span>></span>
+  Foo. Go to <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#start"</span>></span>start<span class="tag">&lt;/<span class="title">a</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/deep-navigation'>Deep navigation</h3 id='cookbook/deep-navigation'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"start"</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'start'}"</span>></span>
+    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#user/fry"</span>></span>Go to Fry<span class="tag">&lt;/<span class="title">a</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span>
 
-<h2>Display page with id start by default</h2>
-
-<pre><code>&lt;div&gt;
-  &lt;div data-bind="page: {id: 'bar'}"&gt;Bar&lt;/div&gt;
-  &lt;!-- Foo is displayed --&gt;
-  &lt;div data-bind="page: {id: 'start'}"&gt;Foo&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h2>Navigate to page using scoped IDs.</h2>
-
-<pre><code>&lt;div data-bind="page: {id:'start'}"&gt;
-  &lt;a href="#foo"&gt;Go to foo&lt;/a&gt;
-&lt;/div&gt;
-&lt;div data-bind="page: {id: 'foo'}"&gt;
-  Foo. Go to &lt;a href="#start"&gt;start&lt;/a&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h2>Deep navigation</h2>
-
-<pre><code>&lt;div id="start" data-bind="page: {id: 'start'}"&gt;
-    &lt;a href="#user/fry"&gt;Go to Fry&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;div id="user" data-bind="page: {id: 'user'}"&gt;
-    &lt;div id="fry" data-bind="page: {id: 'fry'}"&gt;Fry&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h2>Load external content into a page using <code>source</code> and trigger <code>sourceLoaded</code> event</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'lorem', source: 'lorem.html .content', sourceLoaded: loremIsLoaded}"&gt;&lt;/div&gt;
-</code></pre>
-
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"user"</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'user'}"</span>></span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"fry"</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'fry'}"</span>></span>Fry<span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/load-external-content-into-a-page-using-source-and-trigger-sourceloaded-event'>Load external content into a page using <code>source</code> and trigger <code>sourceLoaded</code> event</h3 id='cookbook/load-external-content-into-a-page-using-source-and-trigger-sourceloaded-event'>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">lorem'</span>, <span class="title">source</span>: '<span class="title">lorem</span>.<span class="title">html</span> .<span class="title">content'</span>, <span class="title">sourceLoaded</span>: <span class="title">loremIsLoaded</span>}</span>">&lt;/div></span></code></pre>
 <p>The source can contain a selector (see <code>.content</code> above) in order to extract a fragment on the site.
-In the example above <code>loremIsLoaded</code> is a function that is triggered after <code>lorem.html</code> is loaded.</p>
+In the example above <code>loremIsLoaded</code> is a function that is triggered after <code>lorem.html</code> is loaded.
 
-<h2>Lazy load an external content into a page if <code>sourceOnShow</code> is declared</h2>
+</p>
+<h3 id='cookbook/lazy-load-an-external-content-into-a-page-if-sourceonshow-is-declared'>Lazy load an external content into a page if <code>sourceOnShow</code> is declared</h3 id='cookbook/lazy-load-an-external-content-into-a-page-if-sourceonshow-is-declared'>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">lazyLorem'</span>, <span class="title">sourceOnShow</span>: '<span class="title">lorem</span>.<span class="title">html</span> .<span class="title">content'</span>}</span>">&lt;/div></span></code></pre>
+<p><code>sourceOnShow</code> tells the page to load the content when the page is displayed.
 
-<pre><code>&lt;div data-bind="page: {id: 'lazyLorem', sourceOnShow: 'lorem.html .content'}"&gt;&lt;/div&gt;
-</code></pre>
+</p>
+<h3 id='cookbook/cache-lazy-loaded-content-when-sourcecache-true'>Cache lazy loaded content when <code>sourceCache: true</code></h3 id='cookbook/cache-lazy-loaded-content-when-sourcecache-true'>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">lazyLoremCached'</span>, <span class="title">sourceOnShow</span>: '<span class="title">lorem</span>.<span class="title">html</span> .<span class="title">content'</span>, <span class="title">sourceCache</span>: <span class="title">true</span>}</span>">&lt;/div></span></code></pre>
+<h3 id='cookbook/cache-lazy-loaded-content-the-number-of-seconds-specified-by-sourcecache'>Cache lazy loaded content the number of seconds specified by <code>sourceCache</code></h3 id='cookbook/cache-lazy-loaded-content-the-number-of-seconds-specified-by-sourcecache'>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">lazyLoremCached5seconds'</span>, <span class="title">sourceOnShow</span>: '<span class="title">lorem</span>.<span class="title">html</span> .<span class="title">content'</span>, <span class="title">sourceCache</span>: 5}</span>">&lt;/div></span></code></pre>
+<p><code>sourceCache</code> can specify the amount of seconds the external content should be cached.
 
-<p><code>sourceOnShow</code> tells the page to load the content when the page is displayed.</p>
+</p>
+<h3 id='cookbook/specify-relative-page-paths-using-page-href'>Specify relative page paths using <code>page-href</code></h3 id='cookbook/specify-relative-page-paths-using-page-href'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'start'}"</span>></span>
+  <span class="comment">&lt;!-- This will update href to #start/bender --></span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"page-href: 'bender'"</span>></span>Bender<span class="tag">&lt;/<span class="title">a</span>></span>
 
-<h2>Cache lazy loaded content when <code>sourceCache: true</code>
-</h2>
+  <span class="comment">&lt;!-- This will update href to #admin/login --></span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"page-href: '../admin/login'"</span>></span>Admin Login<span class="tag">&lt;/<span class="title">a</span>></span>
 
-<pre><code>&lt;div data-bind="page: {id: 'lazyLoremCached', sourceOnShow: 'lorem.html .content', sourceCache: true}"&gt;&lt;/div&gt;
-</code></pre>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'bender'}"</span>></span>Bender!<span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'admin'}"</span>></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'login'}"</span>></span>Login<span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<p>Based on the total path of the page the binding calculates an absolute href.
 
-<h2>Cache lazy loaded content the number of seconds specified by <code>sourceCache</code>
-</h2>
+</p>
+<h3 id='cookbook/change-binding-context-using-with'>Change binding context using <code>with</code></h3 id='cookbook/change-binding-context-using-with'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'user', with: user}"</span>></span>
+  <span class="comment">&lt;!-- Here name is user.name --></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"text: name"</span>></span><span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/withonshow-will-lazy-bind-a-new-view-model-to-the-page'><code>withOnShow</code> will lazy bind a new view model to the page</h3 id='cookbook/withonshow-will-lazy-bind-a-new-view-model-to-the-page'>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">user'</span>, <span class="title">withOnShow</span>: <span class="title">someMethod</span>('<span class="title">someMethod'</span>)}</span>">&lt;/div></span></code></pre>
+<p><code>someMethod</code> must return a function that takes a callback that takes a view model.
 
-<pre><code>&lt;div data-bind="page: {id: 'lazyLoremCached5seconds', sourceOnShow: 'lorem.html .content', sourceCache: 5}"&gt;&lt;/div&gt;
-</code></pre>
+</p>
+<p>E.g.
 
-<p><code>sourceCache</code> can specify the amount of seconds the external content should be cached.</p>
-
-<h2>Specify relative page paths using <code>page-href</code>
-</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-  &lt;!-- This will update href to #start/bender --&gt;
-  &lt;a data-bind="page-href: 'bender'"&gt;Bender&lt;/a&gt;
-
-  &lt;!-- This will update href to #admin/login --&gt;
-  &lt;a data-bind="page-href: '../admin/login'"&gt;Admin Login&lt;/a&gt;
-
-  &lt;div data-bind="page: {id: 'bender'}"&gt;Bender!&lt;/div&gt;
-&lt;/div&gt;
-&lt;div data-bind="page: {id: 'admin'}"&gt;
-  &lt;div data-bind="page: {id: 'login'}"&gt;Login&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p>Based on the total path of the page the binding calculates an absolute href.</p>
-
-<h2>Change binding context using <code>with</code>
-</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'user', with: user}"&gt;
-  &lt;!-- Here name is user.name --&gt;
-  &lt;div data-bind="text: name"&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h2>
-<code>withOnShow</code> will lazy bind a new view model to the page</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'user', withOnShow: someMethod('someMethod')}"&gt;&lt;/div&gt;
-</code></pre>
-
-<p><code>someMethod</code> must return a function that takes a callback that takes a view model.</p>
-
-<p>E.g.</p>
-
-<pre><code>function requireVM(module) {
-  return function(callback) {
-    require([module], function(mod) {
-      callback(mod.getVM());
+</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">requireVM</span><span class="params">(module)</span> {</span>
+  <span class="keyword">return</span> <span class="keyword">function</span>(callback) {
+    require([module], <span class="keyword">function</span>(<span class="built_in">mod</span>) {
+      callback(<span class="built_in">mod</span>.getVM());
     });
   };
-}
-</code></pre>
+}</code></pre>
+<h3 id='cookbook/match-wildcard-ids-if-no-other-id-can-match-exactly'>Match wildcard IDs if no other ID can match exactly</h3 id='cookbook/match-wildcard-ids-if-no-other-id-can-match-exactly'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'admin'}"</span>></span><span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="comment">&lt;!-- The page below match anything except 'admin' --></span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: '?'}"</span>></span><span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/deep-navigation-with-wildcards'>Deep navigation with wildcards</h3 id='cookbook/deep-navigation-with-wildcards'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'start'}"</span>></span>
+      <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#user/leela"</span>></span>Go to Leela<span class="tag">&lt;/<span class="title">a</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span>
 
-<h2>Match wildcard IDs if no other ID can match exactly</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'admin'}"&gt;&lt;/div&gt;
-&lt;!-- The page below match anything except 'admin' --&gt;
-&lt;div data-bind="page: {id: '?'}"&gt;&lt;/div&gt;
-</code></pre>
-
-<h2>Deep navigation with wildcards</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-      &lt;a href="#user/leela"&gt;Go to Leela&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;div data-bind="page: {id: '?'}"&gt;
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: '?'}"</span>></span>
     Misc:
-    &lt;div data-bind="page: {id: 'leela'}"&gt;
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'leela'}"</span>></span>
         Leela
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+    <span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/send-wildcards-as-parameter-to-source-method'>Send wildcards as parameter to source-method</h3 id='cookbook/send-wildcards-as-parameter-to-source-method'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'start'}"</span>></span>
+    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#user/fry"</span>></span>Go to Fry<span class="tag">&lt;/<span class="title">a</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span>
 
-<h2>Send wildcards as parameter to source-method</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-    &lt;a href="#user/fry"&gt;Go to Fry&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;div data-bind="page: {id: 'user'}"&gt;
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'user'}"</span>></span>
     User:
-    &lt;!-- {1} will be replaced with whatever matched the wildcard --&gt;
-    &lt;div data-bind="page: {id: '?', sourceOnShow: 'user/{1}.html'}"&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+    <span class="comment">&lt;!-- {1} will be replaced with whatever matched the wildcard --></span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: '?', sourceOnShow: 'user/{1}.html'}"</span>></span>
+    <span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/load-content-into-iframes'>Load content into iframes</h3 id='cookbook/load-content-into-iframes'>
+<pre><code><span class="comment">&lt;!-- An iframe will be created inside the div --></span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'user', frame: 'iframe', source: 'user.html'}"</span>></span><span class="tag">&lt;/<span class="title">div</span>></span>
 
-<h2>Load content into iframes</h2>
-
-<pre><code>&lt;!-- An iframe will be created inside the div --&gt;
-&lt;div data-bind="page: {id: 'user', frame: 'iframe', source: 'user.html'}"&gt;&lt;/div&gt;
-
-&lt;!-- The iframe specified will be used --&gt;
-&lt;div data-bind="page: {id: 'fry', frame: 'iframe', source: 'fry.html'}"&gt;
-    &lt;iframe sandbox=""&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h2>Route to custom widgets (dialogs, carousels, accordions)</h2>
-
+<span class="comment">&lt;!-- The iframe specified will be used --></span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'fry', frame: 'iframe', source: 'fry.html'}"</span>></span>
+    <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">sandbox</span>=<span class="value">""</span>></span><span class="tag">&lt;/<span class="title">iframe</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/route-to-custom-widgets-dialogs-carousels-accordions'>Route to custom widgets (dialogs, carousels, accordions)</h3 id='cookbook/route-to-custom-widgets-dialogs-carousels-accordions'>
 <p>It is possible to create custom widgets that jack into the pager-system.
-The <code>page</code>-binding (<code>pager.Page</code>-class) is possible to extend at multiple points.</p>
+The <code>page</code>-binding (<code>pager.Page</code>-class) is possible to extend at multiple points.
 
-<h2>Circumvent the routing</h2>
-
+</p>
+<h3 id='cookbook/circumvent-the-routing'>Circumvent the routing</h3 id='cookbook/circumvent-the-routing'>
 <p>Since pager is not responsible for listening on the location it is possible to
-circumvent the routing using the router used. Just do not use <code>pager.start</code>.</p>
+circumvent the routing using the router used. Just do not use <code>pager.start</code>.
 
-<h2>Navigate into a layer (modal dialog) without losing context</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-  &lt;div data-bind="page: {id: 'admin'}&gt;
-    &lt;a href="#start/admin/ok"&gt;Show OK&lt;/a&gt;
-  &lt;/div&gt;
-  &lt;div data-bind="page: {id: 'ok', modal: true, title: 'OK?'}"&gt;
-        &lt;a href="#admin"&gt;OK?&lt;/a&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
+</p>
+<h3 id='cookbook/navigate-into-a-layer-modal-dialog-without-losing-context'>Navigate into a layer (modal dialog) without losing context</h3 id='cookbook/navigate-into-a-layer-modal-dialog-without-losing-context'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'start'}"</span>></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'admin'}>
+    &lt;a href="</span>#<span class="attribute">start</span>/<span class="attribute">admin</span>/<span class="attribute">ok</span>"></span>Show OK<span class="tag">&lt;/<span class="title">a</span>></span>
+  <span class="tag">&lt;/<span class="title">div</span>></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'ok', modal: true, title: 'OK?'}"</span>></span>
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#admin"</span>></span>OK?<span class="tag">&lt;/<span class="title">a</span>></span>
+  <span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
 <p>If a <code>page</code> is set to <code>modal</code> is can match IDs deeper down the hierarchy. In this case
 start/ok also matches start/admin/ok making the page available as a modal dialog
-in other contexts.</p>
+in other contexts.
 
-<h2>Navigate into a layer (modal dialog) and lose context</h2>
+</p>
+<h3 id='cookbook/navigate-into-a-layer-modal-dialog-and-lose-context'>Navigate into a layer (modal dialog) and lose context</h3 id='cookbook/navigate-into-a-layer-modal-dialog-and-lose-context'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'start'}"</span>></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'admin'}>
+    &lt;a href="</span>#<span class="attribute">start</span>/<span class="attribute">ok</span>"></span>Show OK<span class="tag">&lt;/<span class="title">a</span>></span>
+  <span class="tag">&lt;/<span class="title">div</span>></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'ok', modal: true}"</span>></span>
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#admin"</span>></span>OK?<span class="tag">&lt;/<span class="title">a</span>></span>
+  <span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<p>Losing the context is nothing special. Just navigate away form the current page.
 
-<pre><code>&lt;div data-bind="page: {id: 'start'}"&gt;
-  &lt;div data-bind="page: {id: 'admin'}&gt;
-    &lt;a href="#start/ok"&gt;Show OK&lt;/a&gt;
-  &lt;/div&gt;
-  &lt;div data-bind="page: {id: 'ok', modal: true}"&gt;
-        &lt;a href="#admin"&gt;OK?&lt;/a&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p>Losing the context is nothing special. Just navigate away form the current page.</p>
-
-<h2>Change the page title</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'fry', title: 'Fry'}"&gt;
+</p>
+<h3 id='cookbook/change-the-page-title'>Change the page title</h3 id='cookbook/change-the-page-title'>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'fry', title: 'Fry'}"</span>></span>
   Fry
-&lt;/div&gt;
-</code></pre>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<p>Setting the &#39;title&#39; configuration property will update the document title when navigating to
+the page.
 
-<p>Setting the 'title' configuration property will update the document title when navigating to
-the page.</p>
 
-<h2>Run custom JS on "before/after navigate from/to"</h2>
+</p>
+<h3 id='cookbook/run-custom-js-on-before-after-navigate-from-to'>Run custom JS on &quot;before/after navigate from/to&quot;</h3 id='cookbook/run-custom-js-on-before-after-navigate-from-to'>
+<p>There are four alternatives:
 
-<p>There are four alternatives:</p>
-
+</p>
 <ul>
 <li>global registration using pager.childManager</li>
-<li>global data binding on body using <code>click</code>
-</li>
-<li>local data binding on anchor using <code>click</code>
-</li>
-<li>
-<p>local data binding on page using <code>beforeHide</code>, <code>afterHide</code>, <code>beforeShow</code>, and <code>afterShow</code></p>
-
-<p>// global registration using pager.childManager
+<li>global data binding on body using <code>click</code></li>
+<li>local data binding on anchor using <code>click</code></li>
+<li>local data binding on page using <code>beforeHide</code>, <code>afterHide</code>, <code>beforeShow</code>, and <code>afterShow</code></li>
+</ul>
+<pre><code>// global registration using pager.childManager
 ko.computed(function() {
   var currentChild = pager.childManager.currentChildO();
   if(currentChild) {
     // do something
   }
-});</p>
+});
 
-<p></p>
+<span class="tag">&lt;<span class="title">body</span> <span class="attribute">data-bind</span>=<span class="value">"click: globalClick"</span>></span>
 
-<pre><code>// local data binding on page
-&lt;div data-bind="page: {id: 'fry', beforeHide: beforeFryIsHidden}"&gt;&lt;/div&gt;
+    // local data binding on page
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'fry', beforeHide: beforeFryIsHidden}"</span>></span><span class="tag">&lt;/<span class="title">div</span>></span>
 
-// local data binding on anchor using click
-&lt;a data-bind="page-href: 'fry' click: anchorClicked}"&gt;Go to Fry&lt;/a&gt;
-</code></pre>
+    // local data binding on anchor using click
+    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"page-href: 'fry' click: anchorClicked}"</span>></span>Go to Fry<span class="tag">&lt;/<span class="title">a</span>></span>
 
-<p></p>
+<span class="tag">&lt;/<span class="title">body</span>></span>
 
-<p>var beforeFryIsHidden = function(page) {
+var beforeFryIsHidden = function(page) {
     console.error(page);
-};</p>
+};
 
-<p>var anchorClicked = function(page, e) {
+var anchorClicked = function(page, e) {
     // otherwise the event will be stopped
     return true;
-};</p>
+};
 
-<p>var globalClick = function() {
+var globalClick = function() {
     // otherwise the event will be stopped
     return true;
-};</p>
-</li>
-</ul><p>The click data-binding can be used to run validations before navigations. Just do not <code>return true</code>
-to prevent the navigation from happening.</p>
+};</code></pre>
+<p>The click data-binding can be used to run validations before navigations. Just do not <code>return true</code>
+to prevent the navigation from happening.
 
-<h2>Supply custom showElement and hideElement-methods</h2>
 
-<pre><code>&lt;div data-bind="page: {id: 'fry', showElement: showFry, hideElement: hideFry}"&gt;
+</p>
+<h3 id='cookbook/supply-custom-showelement-and-hideelement-methods'>Supply custom showElement and hideElement-methods</h3 id='cookbook/supply-custom-showelement-and-hideelement-methods'>
+<pre><code>&lt;div data-bind=<span class="string">"page: {id: 'fry', showElement: showFry, hideElement: hideFry}"</span>>
   Fry
-&lt;/div&gt;
+&lt;/div>
 
 // new default hide
-pager.hideElement = function(page, callback) {
-  $(page.element).slideUp(600);
+pager<span class="preprocessor">.hideElement</span> = function(page, callback) {
+  $(page<span class="preprocessor">.element</span>)<span class="preprocessor">.slideUp</span>(<span class="number">600</span>)<span class="comment">;</span>
   if(callback) {
-    callback();
+    callback()<span class="comment">;</span>
   }
-};
+}<span class="comment">;</span>
 
 // new default show
-pager.showElement = function(page, callback) {
-  $(page.element).slideDown(600);
+pager<span class="preprocessor">.showElement</span> = function(page, callback) {
+  $(page<span class="preprocessor">.element</span>)<span class="preprocessor">.slideDown</span>(<span class="number">600</span>)<span class="comment">;</span>
   if(callback) {
-    callback();
+    callback()<span class="comment">;</span>
   }
-};
+}<span class="comment">;</span>
 
 var showFry = function(page, callback) {
-  $(page.element).fadeIn(500, callback);
-};
+  $(page<span class="preprocessor">.element</span>)<span class="preprocessor">.fadeIn</span>(<span class="number">500</span>, callback)<span class="comment">;</span>
+}<span class="comment">;</span>
 var hideFry = function(page, callback) {
-  $(page.element).fadeOut(500, callback);
-};
-</code></pre>
+  $(page<span class="preprocessor">.element</span>)<span class="preprocessor">.fadeOut</span>(<span class="number">500</span>, callback)<span class="comment">;</span>
+}<span class="comment">;</span></code></pre>
+<h3 id='cookbook/specify-loaders-in-pages'>Specify loaders in pages</h3 id='cookbook/specify-loaders-in-pages'>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">zoidberg'</span>, <span class="title">title</span>: '<span class="type">Zoidberg</span>', <span class="title">loader</span>: <span class="title">loader</span>, <span class="title">sourceOnShow</span>: '<span class="title">zoidberg</span>.<span class="title">html'</span>}</span>" /></span></code></pre>
+<p>where
 
-<h2>Specify loaders in pages</h2>
-
-<pre><code>&lt;div data-bind="page: {id: 'zoidberg', title: 'Zoidberg', loader: loader, sourceOnShow: 'zoidberg.html'}" /&gt;
-</code></pre>
-
-<p>where</p>
-
+</p>
 <pre><code>textLoader: function(page, element) {
     var loader = {};
-    var txt = $('&lt;div&gt;&lt;/div&gt;', {text: 'Loading ' + page.getValue().title});
+    var txt = $('<span class="tag">&lt;<span class="title">div</span>></span><span class="tag">&lt;/<span class="title">div</span>></span>', {text: 'Loading ' + page.getValue().title});
     loader.load = function() {
         $(element).append(txt);
     };
@@ -608,167 +883,149 @@ var hideFry = function(page, callback) {
         txt.remove();
     };
     return loader;
-}
-</code></pre>
+}</code></pre>
+<h3 id='cookbook/specify-global-loaders'>Specify global loaders</h3 id='cookbook/specify-global-loaders'>
+<pre><code><span class="comment">// see textLoader above</span>
+pager<span class="variable">.loader</span> = textLoader;</code></pre>
+<h3 id='cookbook/tab-panel-custom-widget'>Tab panel custom widget</h3 id='cookbook/tab-panel-custom-widget'>
+<pre><code><span class="tag">&lt;<span class="title">ul</span> <span class="attribute">class</span>=<span class="value">"nav nav-tabs"</span> <span class="attribute">data-bind</span>=<span class="value">"foreach: $page.children"</span>></span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">data-bind</span>=<span class="value">"css: {active: isVisible}"</span>></span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"text: $data.getValue().title, page-href: getId()"</span>></span><span class="tag">&lt;/<span class="title">a</span>></span><span class="tag">&lt;/<span class="title">li</span>></span>
+<span class="tag">&lt;/<span class="title">ul</span>></span>
 
-<h2>Specify global loaders</h2>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'Slagsmålsklubben', title: 'Slagsmålsklubben',
+  sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:66KBDVJnA6c0DjHeSZYaHb', frame: 'iframe'}"</span> <span class="attribute">class</span>=<span class="value">"hero-unit"</span>></span>
+    <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"300"</span> <span class="attribute">height</span>=<span class="value">"380"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span> <span class="attribute">allowtransparency</span>=<span class="value">"true"</span>></span><span class="tag">&lt;/<span class="title">iframe</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span>
 
-<pre><code>// see textLoader above
-pager.loader = textLoader;
-</code></pre>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'Binärpilot', title: 'Binärpilot',
+  sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:67LKycg4jAoC06kZgjvbNd', frame: 'iframe'}"</span> <span class="attribute">class</span>=<span class="value">"hero-unit"</span>></span>
+    <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"300"</span> <span class="attribute">height</span>=<span class="value">"380"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span> <span class="attribute">allowtransparency</span>=<span class="value">"true"</span>></span><span class="tag">&lt;/<span class="title">iframe</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/react-to-a-failed-navigation'>React to a failed navigation</h3 id='cookbook/react-to-a-failed-navigation'>
+<p>Both Page-objects and pager should send events whenever a navigation failed (i.e. no matching page for the route).
 
-<h2>Tab panel custom widget</h2>
-
-<pre><code>&lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
-    &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a data-bind="text: $data.getValue().title, page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div data-bind="page: {id: 'Slagsmålsklubben', title: 'Slagsmålsklubben',
-  sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:66KBDVJnA6c0DjHeSZYaHb', frame: 'iframe'}" class="hero-unit"&gt;
-    &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-
-&lt;div data-bind="page: {id: 'Binärpilot', title: 'Binärpilot',
-  sourceOnShow: 'https://embed.spotify.com/?uri=spotify:album:67LKycg4jAoC06kZgjvbNd', frame: 'iframe'}" class="hero-unit"&gt;
-    &lt;iframe width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h2>React to a failed navigation</h2>
-
-<p>Both Page-objects and pager should send events whenever a navigation failed (i.e. no matching page for the route).</p>
-
-<pre><code>&lt;a data-bind="click: function() { window.location.hash = 'failed_navigation/random/' + (Math.random()*1000).toFixed() }"&gt;
+</p>
+<pre><code><span class="xml"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"click: function() { window.location.hash = 'failed_navigation/random/' + (Math.random()*</span><span class="number">1000</span><span class="xml">).toFixed() }">
     Go to random sub-page
-&lt;/a&gt;
+<span class="tag">&lt;/<span class="title">a</span>></span>
 
-&lt;div data-bind="page: {id: 'random', navigationFailed: randomFailed}"&gt;
-    &lt;ul class="nav nav-tabs" data-bind="foreach: $page.children"&gt;
-        &lt;li data-bind="css: {active: isVisible}"&gt;&lt;a
-                data-bind="text: getId(), page-href: getId()"&gt;&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'random', navigationFailed: randomFailed}"</span>></span>
+    <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">class</span>=<span class="value">"nav nav-tabs"</span> <span class="attribute">data-bind</span>=<span class="value">"foreach: </span><span class="variable">$page.children</span><span class="xml">">
+        <span class="tag">&lt;<span class="title">li</span> <span class="attribute">data-bind</span>=<span class="value">"css: {active: isVisible}"</span>></span><span class="tag">&lt;<span class="title">a
+</span>                <span class="attribute">data-bind</span>=<span class="value">"text: getId(), page-href: getId()"</span>></span><span class="tag">&lt;/<span class="title">a</span>></span><span class="tag">&lt;/<span class="title">li</span>></span>
+    <span class="tag">&lt;/<span class="title">ul</span>></span>
 
-    &lt;div data-bind="foreach: newChildren"&gt;
-        &lt;div data-bind="page: {id: childId}"&gt;
-            &lt;span data-bind="text: childId"&gt;&lt;/span&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"foreach: newChildren"</span>></span>
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: childId}"</span>></span>
+            <span class="tag">&lt;<span class="title">span</span> <span class="attribute">data-bind</span>=<span class="value">"text: childId"</span>></span><span class="tag">&lt;/<span class="title">span</span>></span>
+        <span class="tag">&lt;/<span class="title">div</span>></span>
+    <span class="tag">&lt;/<span class="title">div</span>></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></span></code></pre>
+<p>where
 
-<p>where</p>
-
-<pre><code>randomFailed:function (page, route) {
-    viewModel.newChildren.push({
-        childId:route[0]
-    });
-    page.showPage(route);
+</p>
+<pre><code><span class="label">randomFailed:</span>function (page, route) {
+    viewModel<span class="preprocessor">.newChildren</span><span class="preprocessor">.push</span>({
+        childId:route[<span class="number">0</span>]
+    })<span class="comment">;</span>
+    page<span class="preprocessor">.showPage</span>(route)<span class="comment">;</span>
 },
-newChildren:ko.observableArray([])
-</code></pre>
-
-<h2>Load view content using a custom method</h2>
-
+<span class="label">newChildren:</span>ko<span class="preprocessor">.observableArray</span>([])</code></pre>
+<h3 id='cookbook/load-view-content-using-a-custom-method'>Load view content using a custom method</h3 id='cookbook/load-view-content-using-a-custom-method'>
 <p>In order to facilitate programming in the large it is useful to be able to extract views as separate components.
-These views should not be forced to be stored as html-fragments or be loaded with jQuery.</p>
+These views should not be forced to be stored as html-fragments or be loaded with jQuery.
 
+</p>
 <p>Thus a way to inject custom views should be possible. This is done using the <code>source</code>- or
-<code>sourceOnShow</code>-properties. Just supply a method instead of a string!</p>
+<code>sourceOnShow</code>-properties. Just supply a method instead of a string!
 
-<p>These properties takes a method that should take a <code>pager.Page</code> as first argument, a callback, and return nothing.</p>
+</p>
+<p>These properties takes a method that should take a <code>pager.Page</code> as first argument, a callback, and return nothing.
 
-<pre><code>&lt;div data-bind="page: {id: 'zoidberg', sourceOnShow: requireView('character/zoidberg')}" /&gt;
-</code></pre>
+</p>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">zoidberg'</span>, <span class="title">sourceOnShow</span>: <span class="title">requireView</span>('<span class="title">character</span>/<span class="title">zoidberg'</span>)}</span>" /></span></code></pre>
+<p>where
 
-<p>where</p>
-
-<pre><code>window.requireView = function(viewModule) {
+</p>
+<pre><code>window<span class="preprocessor">.requireView</span> = function(viewModule) {
   return function(page, callback) {
     require([viewModule], function(viewString) {
-      $(page.element).html(viewString);
-      callback();
-    });
-  };
-};
-</code></pre>
+      $(page<span class="preprocessor">.element</span>)<span class="preprocessor">.html</span>(viewString)<span class="comment">;</span>
+      callback()<span class="comment">;</span>
+    })<span class="comment">;</span>
+  }<span class="comment">;</span>
+}<span class="comment">;</span></code></pre>
+<p>if
 
-<p>if</p>
-
+</p>
 <pre><code>// file: character/zoidberg.js
 define(function() {
-  return '&lt;h1&gt;Zoidberg&lt;/h1&gt;';
-});
-</code></pre>
+  return '<span class="tag">&lt;<span class="title">h1</span>></span>Zoidberg<span class="tag">&lt;/<span class="title">h1</span>></span>';
+});</code></pre>
+<h3 id='cookbook/send-uri-fragment-identifier-parameters-to-a-page'>Send URI (fragment identifier) parameters to a page</h3 id='cookbook/send-uri-fragment-identifier-parameters-to-a-page'>
+<p>A page should be able to access the information in the current route - changing a view-model.
 
-<h2>Send URI (fragment identifier) parameters to a page</h2>
-
-<p>A page should be able to access the information in the current route - changing a view-model.</p>
-
+</p>
 <p>Sending parts of the fragment identifier to variables in the view-model is possible using
-<code>params</code>.</p>
+<code>params</code>.
 
-<pre><code>&lt;div data-bind="page: {id: 'search', params: {'name', 'fromdate'}}"&gt;
-  &lt;span data-bind="text: name"&gt;&lt;/span&gt; (&lt;span data-bind="text: fromdate"&gt;&lt;/span&gt;)
-&lt;/div&gt;
-</code></pre>
+</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'search', params: {'name', 'fromdate'}}"</span>></span>
+  <span class="tag">&lt;<span class="title">span</span> <span class="attribute">data-bind</span>=<span class="value">"text: name"</span>></span><span class="tag">&lt;/<span class="title">span</span>></span> (<span class="tag">&lt;<span class="title">span</span> <span class="attribute">data-bind</span>=<span class="value">"text: fromdate"</span>></span><span class="tag">&lt;/<span class="title">span</span>></span>)
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<p>where <code>name</code> and <code>fromdate</code> with be bound by the parameters <code>name</code> and <code>fromdate</code>.
 
-<p>where <code>name</code> and <code>fromdate</code> with be bound by the parameters <code>name</code> and <code>fromdate</code>.</p>
+</p>
+<p>An example route for the example above could look like
 
-<p>An example route for the example above could look like</p>
+</p>
+<pre><code>example<span class="variable">.com</span>/<span class="preprocessor">#search/tv?name=samsung&amp;fromdate=20121010</span></code></pre>
+<p>or if HTML5 history is used
 
-<pre><code>example.com/#search/tv?name=samsung&amp;fromdate=20121010
-</code></pre>
-
-<p>or if HTML5 history is used</p>
-
-<pre><code>example.com/search/tv?name=samsung&amp;fromdate=20121010
-</code></pre>
-
-<h2>Add guards</h2>
-
+</p>
+<pre><code><span class="title">example</span>.com/search/tv?name=samsung&amp;fromdate=<span class="number">20121010</span></code></pre>
+<h3 id='cookbook/add-guards'>Add guards</h3 id='cookbook/add-guards'>
 <p>Guards are methods that are run before the page navigation takes place and
-that can stop the navigation from displaying a certain page.</p>
+that can stop the navigation from displaying a certain page.
 
+</p>
 <p>Use the property <code>guard: someMethod</code> do apply the guard. The method
 takes three parameters: page, route and callback. If the callback is called
-the navigation takes place - otherwise it is stopped.</p>
+the navigation takes place - otherwise it is stopped.
 
-<pre><code>&lt;div data-bind="page: {id: 'admin', guard: isLoggedIn}"&gt;
-  This page is only accessible if the user is logged in.
-&lt;/div&gt;
-</code></pre>
+</p>
+<pre><code>&lt;div <span class="typedef"><span class="keyword">data</span>-bind="page: <span class="container">{<span class="title">id</span>: '<span class="title">admin'</span>, <span class="title">guard</span>: <span class="title">isLoggedIn</span>}</span>"></span>
+  <span class="type">This</span> page is only accessible <span class="keyword">if</span> the user is logged <span class="keyword">in</span>.
+&lt;/div></code></pre>
+<p>where
 
-<p>where</p>
-
-<pre><code>isLoggedIn: function(toPage, route, callback, fromPage) {
-    if(viewModel.loggedIn()) {
-        callback();
+</p>
+<pre><code><span class="label">isLoggedIn:</span> function(toPage, route, callback, fromPage) {
+    if(viewModel<span class="preprocessor">.loggedIn</span>()) {
+        callback()<span class="comment">;</span>
     } else {
-        window.location.href = "login";
+        window<span class="preprocessor">.location</span><span class="preprocessor">.href</span> = <span class="string">"login"</span><span class="comment">;</span>
     }
-}
-</code></pre>
+}</code></pre>
+<p>Use cases are login, validating steps in state machines, etc.
 
-<p>Use cases are login, validating steps in state machines, etc.</p>
-
+</p>
 <p>The reason the guard takes a callback as third argument is simply because the guard might be async - accessing
-a webserver for login details or asking if a valid shopping card exists etc.</p>
+a webserver for login details or asking if a valid shopping card exists etc.
 
-<h1>FAQ</h1>
-
-<h2>Can I use it together with...</h2>
-
+</p>
+<h2 id='faq'>FAQ</h2 id='faq'>
+<h3 id='faq/can-i-use-it-together-with'>Can I use it together with...</h3 id='faq/can-i-use-it-together-with'>
 <p>pager.js is not depending on anything but jQuery, KnockoutJS and Underscore.js/Lo-Dash. You can use it together with
-any CSS framework. If you don't like Underscore.js you can use it together with Lo-Dash instead.</p>
+any CSS framework. If you don&#39;t like Underscore.js you can use it together with Lo-Dash instead.
 
-<h2>Can I use true URLs instead?</h2>
+</p>
+<h3 id='faq/can-i-use-true-urls-instead'>Can I use true URLs instead?</h3 id='faq/can-i-use-true-urls-instead'>
+<p>Yes. Use <code>pager.min.history.js</code> if you want to use it together with History.js.
 
-<p>Yes. Use <code>pager.min.history.js</code> if you want to use it together with History.js.</p>
-
-<h1>Release Notes</h1>
-
-<h2>0.2</h2>
-
+</p>
+<h2 id='release-notes'>Release Notes</h2 id='release-notes'>
+<h3 id='release-notes/0-2'>0.2</h3 id='release-notes/0-2'>
 <ul>
 <li><a href="https://github.com/finnsson/pagerjs/issues/17">Should be possible to circumvent the routing</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/16">Should be possible to route to custom widgets (accordions)</a></li>
@@ -786,8 +1043,8 @@ any CSS framework. If you don't like Underscore.js you can use it together with 
 <li><a href="https://github.com/finnsson/pagerjs/issues/4">Should be possible to do deep navigation</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/3">Should navigate to page using scoped IDs.</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/2">Should display page with id start by default</a></li>
-</ul><h2>0.4</h2>
-
+</ul>
+<h3 id='release-notes/0-4'>0.4</h3 id='release-notes/0-4'>
 <ul>
 <li><a href="https://github.com/finnsson/pagerjs/issues/26">Should be possible to add guards</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/25">Should be possible to send URI (fragment identifier) parameters to a page</a></li>
@@ -795,51 +1052,49 @@ any CSS framework. If you don't like Underscore.js you can use it together with 
 <li><a href="https://github.com/finnsson/pagerjs/issues/23">Should be possible to navigate into modals</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/22">Should be possible to specify loaders on pages</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/21">Should be possible to change the page title</a></li>
-<li><a href="https://github.com/finnsson/pagerjs/issues/20">Should be possible to run custom JS on "navigate failed"</a></li>
+<li><a href="https://github.com/finnsson/pagerjs/issues/20">Should be possible to run custom JS on &quot;navigate failed&quot;</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/19">Tab panel custom widget</a></li>
-<li><a href="https://github.com/finnsson/pagerjs/issues/18">Should be possible to run custom JS on "navigate to"</a></li>
-</ul><h2>0.6 (Current)</h2>
-
+<li><a href="https://github.com/finnsson/pagerjs/issues/18">Should be possible to run custom JS on &quot;navigate to&quot;</a></li>
+</ul>
+<h3 id='release-notes/0-6-current'>0.6 (Current)</h3 id='release-notes/0-6-current'>
 <ul>
 <li><a href="https://github.com/finnsson/pagerjs/issues/28">Should contain common effects</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/34">HTML5 History Boilerplate</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/29">page-hash and page-href5 bindings for hash or html5 history</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/27">Access to Page in withOnShow handler</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/1">Add BeforeNavigate Event handler to allow user to stop transition</a></li>
-</ul><h1>Roadmap</h1>
+</ul>
+<h2 id='roadmap'>Roadmap</h2 id='roadmap'>
+<p>See <a href="https://github.com/finnsson/pagerjs/issues/milestones">Milestones</a>.
 
-<p>See <a href="https://github.com/finnsson/pagerjs/issues/milestones">Milestones</a>.</p>
-
-<h1>How to Contribute</h1>
-
+</p>
+<h2 id='how-to-contribute'>How to Contribute</h2 id='how-to-contribute'>
 <p>Fork this repo. Install all dependencies (node.js, grunt, phnatomjs). Run all tests
-(<code>grunt qunit</code>). Run jslint (<code>grunt lint</code>). Make your changes. Run all tests and the linter again. Send a pull request.</p>
+(<code>grunt qunit</code>). Run jslint (<code>grunt lint</code>). Make your changes. Run all tests and the linter again. Send a pull request.
 
-<h1>License</h1>
+</p>
+<h2 id='license'>License</h2 id='license'>
+<p>pager.js is under MIT license.
 
-<p>pager.js is under MIT license.</p>
+</p>
+<p>Copyright (c) 2012 Oscar Finnsson
 
-<p>Copyright (c) 2012 Oscar Finnsson</p>
-
+</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the
 rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
- persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+ persons to whom the Software is furnished to do so, subject to the following conditions:
 
+</p>
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
-Software.</p>
+Software.
 
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-      </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/finnsson">finnsson</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
+
+  </div>
+</div></body>
 </html>
