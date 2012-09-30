@@ -8,7 +8,7 @@
     <link href="demo.css" rel="stylesheet">
     <link href="pager.css" rel="stylesheet">
 
-    <script data-main="demo.js" type="text/javascript" src="require.js"></script>
+    <script data-main="demo.js" type="text/javascript" src="require-jquery.js"></script>
 
     <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
@@ -16,17 +16,20 @@
     <script type="text/javascript">
         requirejs.config({
             shim:{
-                bootstrap:['jquery'],
-                hashchange:['jquery']
+                "bootstrap/js/bootstrap.min.js":['jquery'],
+                "jquery.ba-hashchange.min":['jquery']
             },
             paths:{
-                jquery:'jquery-1.7.2.min',
                 underscore:'lodash.min',
                 knockout:'knockout-2.1.0',
                 pager:'pager.amd.hash.min',
-                bootstrap:'bootstrap/js/bootstrap.min',
-                hashchange:'jquery.ba-hashchange.min',
                 "zoidberg":'character/zoidberg'
+            },
+            map: {
+                '*': {
+                    hashchange: 'jquery.ba-hashchange.min',
+                    bootstrap: 'bootstrap/js/bootstrap.min.js'
+                }
             }
         });
     </script>
