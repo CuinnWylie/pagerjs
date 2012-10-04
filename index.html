@@ -163,6 +163,14 @@
                   <a href="#configurations/string-fx">{String} fx</a>
                 </li>
               
+                <li>
+                  <a href="#configurations/object-vars">{Object} vars</a>
+                </li>
+              
+                <li>
+                  <a href="#configurations/boolean-deep">{Boolean} deep</a>
+                </li>
+              
             </ul>
           
         </li>
@@ -282,6 +290,14 @@
               
                 <li>
                   <a href="#cookbook/add-guards">Add guards</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/add-observables-without-connection-to-the-view-model">Add observables without connection to the view model</a>
+                </li>
+              
+                <li>
+                  <a href="#cookbook/deep-loading-content-into-wildcards">Deep loading content into wildcards</a>
                 </li>
               
             </ul>
@@ -472,10 +488,30 @@ ko<span class="variable">.applyBindings</span>(viewModel);
 <span class="comment">// show/hide pages depending on their page IDs</span>
 pager<span class="variable">.start</span>();</code></pre>
 <h3 id='reference-manual/page-href'>page-href</h3 id='reference-manual/page-href'>
-<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"page-href: 'somePagePath'"</span>></span><span class="tag">&lt;/<span class="title">a</span>></span></code></pre>
+<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"page-href: 'somePagePath'"</span>></span><span class="tag">&lt;/<span class="title">a</span>></span>
+
+<span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"page-href: somePageInstance"</span>></span><span class="tag">&lt;/<span class="title">a</span>></span></code></pre>
 <p>Calculates absolute href based on the location of the element.
 
 </p>
+<p>If hashes are used it will be prefixed with <code>#</code> by default. You can change the default prefix
+to e.g. <code>#!/</code> by setting <code>pager.Href.hash = &#39;#!/&#39;;</code>
+
+</p>
+<p>True URLs can use used by either using the <code>page-href5</code> binding or setting <code>pager.useHTML5history = true</code>.
+
+</p>
+<p>History.js can be used by setting <code>pager.Href5.history = History</code> (default to the normal <code>history</code>).
+
+</p>
+<p>It the page-href is supplied a Page-instance the absolute href to the Page-instance is calculated.
+
+</p>
+<ul>
+<li><a href="http://oscar.finnsson.nu/pagerjs/demo/#relative_path">Relative path</a></li>
+<li><a href="http://oscar.finnsson.nu/pagerjs/demo/#absolute_path">Absolute Path</a></li>
+<li><a href="http://oscar.finnsson.nu/pagerjs/demo/#html5_history">HTML5 History</a></li>
+</ul>
 <h3 id='reference-manual/page'>page</h3 id='reference-manual/page'>
 <pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {}"</span>></span>
 <span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
@@ -636,6 +672,21 @@ found by child-pages to sibling-pages of the modal.
 <h3 id='configurations/string-fx'>{String} fx</h3 id='configurations/string-fx'>
 <ul>
 <li><a href="http://oscar.finnsson.nu/pagerjs/demo/#fx">FX</a></li>
+</ul>
+<h3 id='configurations/object-vars'>{Object} vars</h3 id='configurations/object-vars'>
+<p>Created scoped observables for the view. Useful for when observables are needed purely for the view
+and has no connection to the view-model.
+
+</p>
+<ul>
+<li><a href="http://oscar.finnsson.nu/pagerjs/demo/#vars">Custom observables in the view</a></li>
+</ul>
+<h3 id='configurations/boolean-deep'>{Boolean} deep</h3 id='configurations/boolean-deep'>
+<p>By setting <code>deep: true</code> a wildcard page will deep-load supplied sources.
+
+</p>
+<ul>
+<li><a href="http://oscar.finnsson.nu/pagerjs/demo/#deep_load_content_into_wildcard">Deep Load Content into Wildcard</a></li>
 </ul>
 <h2 id='cookbook'>Cookbook</h2 id='cookbook'>
 <p>The following behaviors specify and exemplify what pager.js is capable of.
@@ -1012,6 +1063,29 @@ the navigation takes place - otherwise it is stopped.
 </p>
 <p>The reason the guard takes a callback as third argument is simply because the guard might be async - accessing
 a webserver for login details or asking if a valid shopping card exists etc.
+
+</p>
+<h3 id='cookbook/add-observables-without-connection-to-the-view-model'>Add observables without connection to the view model</h3 id='cookbook/add-observables-without-connection-to-the-view-model'>
+<p>Sometimes you need observables purely for the visual and they got no connection to the view-model.
+
+</p>
+<p>Using the <code>vars</code> property new observables can be added to the page context.
+
+</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: 'user', vars: {lorem: 'ipsum'}}"</span>></span>
+  <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">data-bind</span>=<span class="value">"value: lorem"</span>/></span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"text: lorem"</span>/></span>
+<span class="tag">&lt;/<span class="title">div</span>></span></code></pre>
+<h3 id='cookbook/deep-loading-content-into-wildcards'>Deep loading content into wildcards</h3 id='cookbook/deep-loading-content-into-wildcards'>
+<p>Using a combination of wildcard pages and sourceOnShow it is possible to deep load content.
+
+</p>
+<pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-bind</span>=<span class="value">"page: {id: '?', deep: true, sourceOnShow: '{</span><span class="number">1</span><span class="xml">}.html'}><span class="tag">&lt;/<span class="title">div</span>></span>
+
+<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#!/some/cool/page"</span>></span>Load some cool page<span class="tag">&lt;/<span class="title">a</span>></span></span></code></pre>
+<p>In the above example <code>some/cool/page</code> will match the wildcard (<code>?</code>) and since <code>deep: true</code> is specified
+the entire route (<code>some/cool/page</code>) will be used when loading content into the page. If <code>deep</code> hadn&#39;t been
+specified the source should have been <code>some.html</code> instead of <code>some/cool/page.html</code>.
 
 </p>
 <h2 id='faq'>FAQ</h2 id='faq'>
