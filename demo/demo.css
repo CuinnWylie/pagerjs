@@ -10,6 +10,10 @@ body > .container > div {
     cursor: pointer;
 }
 
+.code-large:hover {
+    text-decoration: underline;
+}
+
 .p {
 }
 
@@ -31,4 +35,13 @@ footer .pagination ul {
 
 a .atv {
     text-decoration: underline;
+}
+
+.prettyprint a {
+    text-decoration: underline;
+}
+
+h1, h2, h3 {
+    font-family: 'PT Sans', sans-serif;
+    font-weight: normal;
 }
