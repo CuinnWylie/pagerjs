@@ -63,6 +63,14 @@
                 </li>
               
                 <li>
+                  <a href="#reference-manual/pager-starthashchange">`pager.startHashChange`</a>
+                </li>
+              
+                <li>
+                  <a href="#reference-manual/pager-starthistoryjs">`pager.startHistoryJs`</a>
+                </li>
+              
+                <li>
                   <a href="#reference-manual/pager-extendwithpage">`pager.extendWithPage`</a>
                 </li>
               
@@ -300,6 +308,10 @@
                   <a href="#cookbook/deep-loading-content-into-wildcards">Deep loading content into wildcards</a>
                 </li>
               
+                <li>
+                  <a href="#cookbook/specify-a-start-page">Specify a start page</a>
+                </li>
+              
             </ul>
           
         </li>
@@ -335,7 +347,7 @@
                 </li>
               
                 <li>
-                  <a href="#release-notes/0-6-current">0.6 (Current)</a>
+                  <a href="#release-notes/0-6-current-target">0.6 (Current target)</a>
                 </li>
               
             </ul>
@@ -376,10 +388,12 @@
       <a href="https://github.com/finnsson/pagerjs" id="github-ribbon"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
     
     <h1><a href="http://oscar.finnsson.nu/pagerjs/">pager.js</a></h1>
+<p><a href="https://travis-ci.org/finnsson/pagerjs"><img src="https://travis-ci.org/finnsson/pagerjs.png" alt="Build Status"></a>
+
+</p>
 <p>pager.js is a JavaScript library based on KnockoutJS, jQuery and Underscore.js that provides the possibility of
-creating single page applications in a declarative fashion
-- nesting subpages inside subpages where each subpage can be developed standalone but still communicate between
-each other.
+creating single page applications in a declarative fashion - nesting subpages inside subpages where each subpage can be
+developed standalone but still communicate between each other.
 
 </p>
 <p>This makes it easier to design very large scale single page web sites.
@@ -390,16 +404,17 @@ each other.
 </p>
 <h2 id='getting-started'>Getting Started</h2 id='getting-started'>
 <ol>
-<li>Download the <a href="https://raw.github.com/finnsson/pagerjs/master/pager.js">developer</a> version,
-the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.min.js">minified</a> version,
-the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.amd.min.js">AMD</a> version,
-the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.amd.hash.min.js">AMD jQuery hashchange</a> version,
-or the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.amd.history.min.js">AMD History.js</a> version
+<li>Download the <a href="https://raw.github.com/finnsson/pagerjs/master/pager.js">developer</a> version
+or the <a href="https://raw.github.com/finnsson/pagerjs/master/dist/pager.min.js">minified</a> version
 of pager.js</li>
 <li><p>Include all dependencies (jQuery, Underscore.js/Lo-Dash, KnockoutJS) as well as pager.js in your site
 using either AMD or non-AMD:</p>
 <pre><code> // AMD
  requirejs.config({
+     shim: {
+         history: ['jquery'], // iff using History.js
+         hashchange: ['jquery'] // iff using jquery hashchange
+     },
      paths:{
          jquery:'jquery-1.8.2.min',
          underscore:'lodash.min',
@@ -416,12 +431,39 @@ using either AMD or non-AMD:</p>
  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"jquery-1.8.2.min.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"underscore-min.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"knockout-2.1.0.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
- <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"pager.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span></code></pre>
+ <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"pager.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
+
+ // iff using jQuery Hashchange
+ <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"jquery.ba-hashchange.min"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
+
+ // iff using History.js
+ <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"jquery.history.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
+ <span class="tag">&lt;<span class="title">base</span> <span class="attribute">href</span>=<span class="value">"absolute-URI-to-index.html/"</span>/></span>
+ <span class="comment">&lt;!-- where absolute-URI-to-index.html can be e.g. www.examepl.com/foo/ --></span></code></pre>
 </li>
+</ol>
+<ol>
 <li><p>Insert the lines:</p>
-<pre><code> pager<span class="preprocessor">.extendWithPage</span>(viewModel)<span class="comment">;</span>
+<pre><code> // iff using History<span class="preprocessor">.js</span>
+ // tell page-href to use page-href5
+ pager<span class="preprocessor">.useHTML</span>5history = true<span class="comment">;</span>
+  // tell page-href5 to use History<span class="preprocessor">.js</span> instead of history
+ pager<span class="preprocessor">.Href</span>5<span class="preprocessor">.history</span> = History<span class="comment">;</span>
+
+ // always
+ pager<span class="preprocessor">.extendWithPage</span>(viewModel)<span class="comment">;</span>
  ko<span class="preprocessor">.applyBindings</span>(viewModel)<span class="comment">;</span>
- pager<span class="preprocessor">.start</span>()<span class="comment">;</span></code></pre>
+
+ // pick one of these three alternatives <span class="keyword">or</span> develop your own start-method
+
+ // <span class="number">1.</span> iff using naïve hashchange - wont work with IE7
+ pager<span class="preprocessor">.start</span>()<span class="comment">;</span>
+
+ // <span class="number">2.</span> iff using jQuery Hashchange
+ pager<span class="preprocessor">.startHashChange</span>()<span class="comment">;</span>
+
+ // <span class="number">3.</span> iff using History<span class="preprocessor">.js</span>
+ pager<span class="preprocessor">.startHistoryJs</span>()<span class="comment">;</span></code></pre>
 </li>
 <li><p>Start using the bindings <code>page</code> and <code>page-href</code>. Consult the
 <a href="http://oscar.finnsson.nu/pagerjs/">web page</a>,
@@ -467,7 +509,7 @@ you&#39;ll be able to scale up and out the development. In order to ease develop
 
 </p>
 <h2 id='reference-manual'>Reference Manual</h2 id='reference-manual'>
-<p>pager.js got three static methods and
+<p>pager.js got some static methods and
 extends KnockoutJS with four custom bindings: <code>page</code>, <code>page-href</code>, <code>page-hash</code> and
 <code>page-href5</code>.
 
@@ -475,6 +517,8 @@ extends KnockoutJS with four custom bindings: <code>page</code>, <code>page-href
 </p>
 <h3 id='reference-manual/pager-route'><code>pager.route</code></h3 id='reference-manual/pager-route'>
 <h3 id='reference-manual/pager-start'><code>pager.start</code></h3 id='reference-manual/pager-start'>
+<h3 id='reference-manual/pager-starthashchange'><code>pager.startHashChange</code></h3 id='reference-manual/pager-starthashchange'>
+<h3 id='reference-manual/pager-starthistoryjs'><code>pager.startHistoryJs</code></h3 id='reference-manual/pager-starthistoryjs'>
 <h3 id='reference-manual/pager-extendwithpage'><code>pager.extendWithPage</code></h3 id='reference-manual/pager-extendwithpage'>
 <h4>Example</h4>
 <pre><code><span class="comment">// viewModel is your KnockoutJS view model</span>
@@ -1088,6 +1132,19 @@ the entire route (<code>some/cool/page</code>) will be used when loading content
 specified the source should have been <code>some.html</code> instead of <code>some/cool/page.html</code>.
 
 </p>
+<h3 id='cookbook/specify-a-start-page'>Specify a start page</h3 id='cookbook/specify-a-start-page'>
+<p>There are two main alternatives to specify a start page, depending on the desired result.
+
+</p>
+<p>Either you can pass an ID (e.g. <code>foo/bar</code>) to your start-method or you can call <code>pager.showChild</code> with a route (
+array of strings).
+
+</p>
+<pre><code>// send user <span class="keyword">to</span> login-page
+pager.start(<span class="attribute">'login</span>');
+
+// send user <span class="keyword">to</span> login-page without updating the location
+pager.showChild([<span class="attribute">'login</span>']);</code></pre>
 <h2 id='faq'>FAQ</h2 id='faq'>
 <h3 id='faq/can-i-use-it-together-with'>Can I use it together with...</h3 id='faq/can-i-use-it-together-with'>
 <p>pager.js is not depending on anything but jQuery, KnockoutJS and Underscore.js/Lo-Dash. You can use it together with
@@ -1130,15 +1187,24 @@ any CSS framework. If you don&#39;t like Underscore.js you can use it together w
 <li><a href="https://github.com/finnsson/pagerjs/issues/19">Tab panel custom widget</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/18">Should be possible to run custom JS on &quot;navigate to&quot;</a></li>
 </ul>
-<h3 id='release-notes/0-6-current'>0.6 (Current)</h3 id='release-notes/0-6-current'>
+<h3 id='release-notes/0-6-current-target'>0.6 (Current target)</h3 id='release-notes/0-6-current-target'>
 <ul>
 <li><a href="https://github.com/finnsson/pagerjs/issues/28">Should contain common effects</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/34">HTML5 History Boilerplate</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/29">page-hash and page-href5 bindings for hash or html5 history</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/27">Access to Page in withOnShow handler</a></li>
 <li><a href="https://github.com/finnsson/pagerjs/issues/1">Add BeforeNavigate Event handler to allow user to stop transition</a></li>
+<li><a href="https://github.com/finnsson/pagerjs/issues/39">page-href should be possible to feed with a page-instance</a></li>
+<li><a href="https://github.com/finnsson/pagerjs/issues/38">Should be possible to use hash bang #!/ instead of hash</a></li>
+<li><a href="https://github.com/finnsson/pagerjs/issues/32">Scoped pure view observables using vars</a></li>
+<li><a href="https://github.com/finnsson/pagerjs/issues/31">Wildcards should deep-load content if configured so</a></li>
+<li><a href="https://github.com/finnsson/pagerjs/issues/44">Should be able to change initial page</a></li>
+<li><a href="https://github.com/finnsson/pagerjs/issues/43">Demo as is does not work in IE7</a></li>
 </ul>
 <h2 id='roadmap'>Roadmap</h2 id='roadmap'>
+<p>Currently working towards 0.8
+
+</p>
 <p>See <a href="https://github.com/finnsson/pagerjs/issues/milestones">Milestones</a>.
 
 </p>
